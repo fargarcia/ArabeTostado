@@ -17,11 +17,14 @@
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#9bc635', endColorstr='#c0ea67', GradientType=1);
     /* IE6-9 fallback on horizontal gradient */
     position: relative;
+}
 
+.hasNotAttacked {
     &:hover {
         border: solid;
     }
 }
+
 .stats {
     display: flex;
     justify-content: space-between;
@@ -43,4 +46,8 @@
     &:hover {
         border: none;
     }
+}
+
+.enemyMinion {
+    margin: 0 10px;
 }

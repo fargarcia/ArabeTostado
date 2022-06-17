@@ -9,8 +9,9 @@ export const selectEntity = (dispatch: any, id: number) => {
     dispatch(GameActions.selectEntity(id))
 }
 
-export const attackEntity = (dispatch: any, attacker: Minion, target: Minion) => {
-    dispatch(PlayerActions.takeDamage({ id: attacker.id, damage: target.getAttack() }))
-    dispatch(OponentActions.takeDamage({ id: target.id, damage: attacker.getAttack() }))
+export const attackEntity = (dispatch: any, attacker: Minion, target: Minion , oponent: boolean = false) => {
+    dispatch(GameActions.selectEntity())
+    dispatch(PlayerActions.takeDamage({ id: attacker.id, damage: target.getAttack(), attacker: !oponent }))
+    dispatch(OponentActions.takeDamage({ id: target.id, damage: attacker.getAttack(), attacker: oponent }))
 }
 

@@ -12,4 +12,5 @@ export const selectActiveEntity = createSelector(
     selectPlayer,
     (state: GameState, player: Player) =>
         player.battlefield.findById(state.activeEntity) || player.hand.findById(state.activeEntity) || new Entity()
+
 )

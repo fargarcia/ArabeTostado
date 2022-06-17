@@ -10,17 +10,20 @@ export class Card extends Entity {
     private selected: boolean = false
     type: number = Entities.CARD
 
-    public constructor(entity: Entity) {
+    public constructor(entity: Entity, selected?: boolean) {
         super();
         this.entity = entity
         this.id = entity.getId()
+        this.selected = selected || false
+
         if (entity.type === Entities.MINION) {
-            this.name = (this.entity as unknown as Minion).getName()
-            this.cost = (this.entity as unknown as Minion).getCost()
+            const minion = this.entity as unknown as Minion
+            this.name = minion.getName()
+            this.cost = minion.getCost()
         }
     }
-    public copy = (): Card => new Card(this.entity.copy())
-    public select = () => this.selected = true;
+    public copy = (): Card => new Card(this.entity.copy(), this.selected)
+    public select = (select?: boolean) => this.selected = select || !this.selected
     public isSelected = (): boolean => this.selected
     public getContainedEntity = (): Entity => this.entity
     public getContainedType = (): number => this.entity.type

@@ -21,5 +21,5 @@ export class MinionContainer {
         this.minions = this.minions.filter(minion => minion.id !== removedMinion.id)
     }
     public addOnPostion = (minion: Minion, index: number) => this.minions.splice(index, 0, minion)
-
+    public unselect = () => this.minions.find(minion => minion.selected)?.select()
 }

@@ -19,15 +19,14 @@ const SpaceBetween = ({ activeEntity, dispatch, index, position }: Props) => {
 
     useEffect(() => {
         if ((activeEntity.type === Entities.CARD) && ((activeEntity as CardModel).getContainedType() === Entities.MINION)) {
-            console.log({ activeEntity })
             setMinionSelected((activeEntity as Card).getContainedEntity() as Minion)
-        }
+        } else setMinionSelected(undefined)
     }, [activeEntity])
 
     const onClick = () => minionSelected && dispatch(PlayerActions.playMinion({ card: activeEntity, index }))
 
     return (
-        <div className={styles[position]} onClick={onClick}>
+        <div className={minionSelected ? styles[position] : styles.noSelected} onClick={onClick}>
             <div className={styles.minion}>
                 {minionSelected && (
                     <div>

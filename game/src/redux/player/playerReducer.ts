@@ -12,6 +12,8 @@ const drawCardAction = (state: any) => {
 
 const selectEntityAction = (state: any, { payload }: PayloadAction<number>) => {
     const player = copyPlayer(state)
+    player.battlefield.unselect()
+    player.hand.unselect()
     const entity = player.battlefield.findById(payload) || player.hand.findById(payload)
     entity?.select()
     return player
@@ -20,8 +22,10 @@ const selectEntityAction = (state: any, { payload }: PayloadAction<number>) => {
 const takeDamageAction = (state: any, { payload }: any) => {
     const player = copyPlayer(state)
     const minion: Minion = player.battlefield.findById(payload.id)!
-    minion.takeDamage(payload.damage)
+    minion.takeDamage(payload.damage, payload.attacker)
     if (minion.isDead()) player.battlefield.removeMinion(minion)
+    player.battlefield.unselect()
+    player.hand.unselect()
     return player
 };
 

@@ -17,13 +17,23 @@ interface Props {
 const Minion = ({ activeEntity, dispatch, minion, oponent }: Props) => {
 
     const haddleClick = () => {
-        if (!oponent) selectEntity(dispatch, minion.getId())
+        if (!oponent && !minion.hasAttacked) selectEntity(dispatch, minion.getId())
         else if (activeEntity.type === Entities.MINION)
             attackEntity(dispatch, activeEntity as unknown as MinionModel, minion)
     }
 
+    console.log(minion)
+
     return (
-        <div className={`${styles.minion} ${minion.isSelected && styles.selected}`} onClick={haddleClick}>
+        <div
+            className={`
+                ${styles.minion} 
+                ${minion.selected && styles.selected} 
+                ${oponent && styles.enemyMinion}
+                ${!minion.hasAttacked && styles.hasNotAttacked}
+            `}
+            onClick={haddleClick}
+        >
             <div>{minion.getName()}</div>
             <div className={styles.stats}>
                 <div>{minion.getAttack()}</div>

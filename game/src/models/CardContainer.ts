@@ -15,5 +15,5 @@ export class CardContainer {
     public removeCard = (removedCard: Card) =>
         this.cards.splice(this.cards.indexOf(this.cards.find(card => card.id === removedCard.id)!), 1)
     public copy = (): CardContainer => new CardContainer(this.cards.map(card => card.copy()))
-
+    public unselect = () => this.cards.find(card => card.isSelected())?.select()
 }

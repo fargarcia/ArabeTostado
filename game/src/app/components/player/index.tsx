@@ -8,15 +8,21 @@ import { Entities } from "constants/entities";
 import { selectActiveEntity } from 'redux/selectors'
 
 interface Props {
+    activeEntity: Entity
     player: PlayerModel,
     dispatch: any,
-    oponent?: boolean
+    oponent?: boolean,
 }
 
-const Player = ({ dispatch, player, oponent }: Props) => {
+const Player = ({ activeEntity, dispatch, player, oponent }: Props) => {
+
+    const haddleClick = () => {
+       /*  if (activeEntity.type === Entities.MINION)
+            attackEntity(dispatch, activeEntity as unknown as MinionModel, minion) */
+    }
 
     return (
-        <div className={styles.container}>
+        <div onClick={haddleClick} className={styles.container}>
             <div className={styles[oponent ? 'oponent' : 'you']} >
                 <div>{oponent ? 'Oponente' : 'Vos'}</div>
                 <div className={styles.stats}>
