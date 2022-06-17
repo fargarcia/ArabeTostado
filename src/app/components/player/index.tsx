@@ -24,6 +24,7 @@ const Player = ({ dispatch, player, oponent }: Props) => {
                     <div>{player.money}</div>
                 </div>
             </div >
+            <button className="Button" >drawCard</button>
         </div>
     )
 }
