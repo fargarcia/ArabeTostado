@@ -1,7 +1,8 @@
-import { Deck, Hand, MinionContainer, Entity } from "./index"
+import { Deck, Hand, MinionContainer } from "./index"
 import { cloneDeep } from 'lodash';
 import Battlefield from "app/components/battlefield";
 import { getDeck } from 'constants/cards'
+import { Entity } from "./Entity";
 
 /*export type Player = {
     id: number
@@ -24,23 +25,22 @@ export const copyPlayer = (player: Player) => ({
 interface PlayerProps {
     id: number
     deck: number[]
-    opener: boolean
 }
 
 export class Player extends Entity {
-    id: number
-    battlefield: MinionContainer
-    currentId: number
-    currentMoney: number
-    health: number
-    money: number
-    deck: Deck
-    hand: Hand
+    public id: number
+    public battlefield: MinionContainer
+    public currentId: number
+    public currentMoney: number
+    public health: number
+    public money: number
+    public deck: Deck
+    public hand: Hand
     
 
     public constructor(playerProps: PlayerProps) {
         super()
-        this.id = playerProps.opener ? 1 : 2
+        this.id = playerProps.id
         this.battlefield = new MinionContainer([])
         this.currentId = this.id
         this.currentMoney = 1

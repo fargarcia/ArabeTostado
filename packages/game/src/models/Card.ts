@@ -1,4 +1,4 @@
-import { Minion, Spell } from "models";
+import { Minion } from "models";
 import { Entities } from "constants/entities";
 import { Entity } from "./Entity";
 
