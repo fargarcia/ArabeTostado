@@ -1,0 +1,10 @@
+{
+  "name": "CafeTostado",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:fargarcia/CafeTostado.git",
+  "author": "<fargarcia@fi.uba.ar>",
+  "license": "MIT",
+  "workspaces": ["packages/*"],
+  "private": "true"
+}

@@ -1,5 +1,6 @@
 import { GameActions, PlayerActions, OponentActions } from "store"
 import { Minion } from "models"
+import { GAME_ACTIONS } from "shared/gameActions"
 
 export type GameAction = {
     type: string
@@ -36,16 +37,6 @@ export const attackEntity = (dispatch: any, attacker: Minion, target: Minion, op
     dispatch(GameActions.selectEntity())
     dispatch(PlayerActions.takeDamage({ id: attacker.id, damage: target.getAttack(), attacker: !oponent }))
     dispatch(OponentActions.takeDamage({ id: target.id, damage: attacker.getAttack(), attacker: oponent }))
-}
-
-export const GAME_ACTIONS = {
-    ATTACK,
-    CAST_SPELL,
-    END_TURN,
-    HOVER_ENTITY,
-    PLAY_CARD,
-    SELECT_ENTITY,
-    SELECT_TARGET
 }
 
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
