@@ -48,7 +48,7 @@ io.on(CONNECT, socket => {
             const player1 = waitingList.pop()!
             const player2 = { id, deck }
             const newGameRoom = ({ player1: player1.id, player2: id })
-            const opener = Math.round(Math.random())
+            const opener: boolean = !!Math.round(Math.random())
             gameRooms.addGameRoom(newGameRoom)
 
             socket.to(player1.id).emit(SEND_MESSAGE, "Partida encontrada");
@@ -66,7 +66,7 @@ io.on(CONNECT, socket => {
                 payload: {
                     player: player2,
                     oponent: player1,
-                    opener: opener ? 0 : 1
+                    opener: !opener
                 }
             })
         }

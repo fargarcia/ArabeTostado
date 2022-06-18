@@ -25,9 +25,3 @@ export const attackEntity = (dispatch: any, attacker: Minion, target: Minion, op
     dispatch(PlayerActions.takeDamage({ id: attacker.id, damage: target.getAttack(), attacker: !oponent }))
     dispatch(OponentActions.takeDamage({ id: target.id, damage: attacker.getAttack(), attacker: oponent }))
 }
-
-export const initializeGame = (dispatch: any, gameData: InitGameData) => {
-    dispatch(GameActions.initGameState(gameData.opener))
-    dispatch(PlayerActions.initPlayerState(gameData.player.deck))
-    dispatch(OponentActions.initPlayerState(gameData.oponent.deck))
-}

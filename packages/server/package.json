@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "compileAndRun": "clear && tsc && node build/index.js -o --watch",
+    "compileAndRun": "tsc && node build/index.js -o --watch",
     "tsc": "tsc",
     "start": "nodemon -e ts -w ./src -x yarn compileAndRun",
     "watch:serve": "ts-node --inspect src/index.ts"

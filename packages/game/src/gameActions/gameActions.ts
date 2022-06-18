@@ -22,7 +22,7 @@ interface InitPlayerData {
 }
 
 interface InitGameData {
-    opener: number
+    opener: boolean
     player: InitPlayerData
     oponent: InitPlayerData
 }
@@ -53,15 +53,15 @@ export const executeGameAction = async (dispatch: any, action: GameAction) => {
         case SELECT_TARGET:
         case INIT_GAME:
             const gameData = action.payload as InitGameData
-            dispatch(PlayerActions.initPlayerState(gameData.player.deck))
-            dispatch(OponentActions.initPlayerState(gameData.oponent.deck))
+            dispatch(PlayerActions.initPlayerState({deck: gameData.player.deck, opener: gameData.opener}))
+            dispatch(OponentActions.initPlayerState({deck: gameData.oponent.deck, opener: !gameData.opener}))
             for (let i = 0; i < 3; i++) {
                 await delay(500)
                 dispatch(PlayerActions.drawCard())
                 dispatch(OponentActions.drawCard())
             }
             await delay(500)
-            dispatch((gameData.opener ? PlayerActions : OponentActions).drawCard())
+            dispatch((!gameData.opener ? PlayerActions : OponentActions).drawCard())
             dispatch(GameActions.initGameState(gameData.opener))
             return
         default:

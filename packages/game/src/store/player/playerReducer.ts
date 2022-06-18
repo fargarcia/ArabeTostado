@@ -5,12 +5,17 @@ import { cloneDeep, min } from 'lodash';
 import { copyPlayer } from "../../models";
 import { getDeck } from 'constants/cards'
 
-const initPlayerStateAction = (state: any, { payload }: PayloadAction<number[]>) => ({
-    id: 0,
+interface InitPlayerState{
+    deck: number[]
+    opener: boolean
+}
+
+const initPlayerStateAction = (state: any, { payload }: PayloadAction<InitPlayerState>) => ({
+    id: payload.opener ? 1 : 2,
     money: 1,
     health: 30,
     battlefield: new MinionContainer([]),
-    deck: new Deck(getDeck(payload)),
+    deck: new Deck(getDeck(payload.deck)),
     hand: new Hand([])
 })
 
@@ -58,7 +63,7 @@ export default (player: string) => createReducer(
 );
 
 const Actions = (player: string) => ({
-    initPlayerState: createAction<number[]>(`${player}_INIT_STATE`),
+    initPlayerState: createAction<InitPlayerState>(`${player}_INIT_STATE`),
     drawCard: createAction(`${player}_DRAW_CARD`),
     selectEntity: createAction<number>(`${player}_SELECT_ENTITY`),
     takeDamage: createAction<any>(`${player}_TAKE_DAMAGE`),
