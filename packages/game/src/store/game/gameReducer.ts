@@ -9,10 +9,7 @@ const selectEntityAction = (state: any, { payload }: PayloadAction<number>) => {
     return void (state.activeEntity = payload)
 }
 
-const initGameStateAction = (state: any, { payload }: PayloadAction<boolean>) => ({
-    activePlayer: payload,
-    activeEntity: -1
-})
+const initGameStateAction = (state: any, { payload }: PayloadAction<boolean>) => new GameState(payload)
 
 export default createReducer(
     {},

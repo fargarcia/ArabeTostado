@@ -1,7 +1,7 @@
 import { Hand as HandModel, Card as CardModel } from "models";
 import React from "react";
-import CardComponent from "../card";
-import OponentCard from "../oponentCard";
+import CardComponent from "./components/card";
+import OponentCard from "./components/oponentCard";
 import styles from './styles.module.scss'
 
 interface Props {

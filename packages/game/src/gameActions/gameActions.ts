@@ -1,20 +1,27 @@
 import { GameActions, PlayerActions, OponentActions } from "store"
-import { Minion } from "models"
+import { Minion, Player } from "models"
 import { GAME_ACTIONS } from "shared/gameActions"
+
+interface GameActionPayload {
+    origin?: Minion
+    target?: Minion | Player
+}
 
 export type GameAction = {
     type: string
-    payload: object
+    payload: GameActionPayload
 }
 
-const ATTACK = 'attack'
-const CAST_SPELL = 'castSpell'
-const END_TURN = 'endTurn'
-const HOVER_ENTITY = 'hoverEntity'
-const PLAY_CARD = 'playCard'
-const SELECT_ENTITY = 'selectEntity'
-const SELECT_TARGET = 'selectTarget'
-const INIT_GAME = 'initGame'
+const {
+    ATTACK,
+    CAST_SPELL,
+    END_TURN,
+    HOVER_ENTITY,
+    PLAY_CARD,
+    SELECT_ENTITY,
+    SELECT_TARGET,
+    INIT_GAME
+} = GAME_ACTIONS
 
 interface InitPlayerData {
     id: string
@@ -43,8 +50,13 @@ const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 
 export const executeGameAction = async (dispatch: any, action: GameAction) => {
+    const { origin, target} = action.payload
+
     switch (action.type) {
         case ATTACK:
+            dispatch(GameActions.selectEntity())
+            dispatch(PlayerActions.takeDamage({ id: origin!.id, damage: (typeof target === Minion)?target.getAttack():0, attacker: !oponent }))
+            dispatch(OponentActions.takeDamage({ id: target.id, damage: origin!.getAttack(), attacker: oponent }))
         case CAST_SPELL:
         case END_TURN:
         case HOVER_ENTITY:

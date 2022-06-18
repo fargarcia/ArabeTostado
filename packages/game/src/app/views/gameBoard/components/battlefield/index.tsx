@@ -1,8 +1,8 @@
 import { Hand as HandModel, Card as CardModel, Minion as MinionModel, MinionContainer } from "models";
 import React from "react";
-import CardComponent from "../card";
-import OponentCard from "../oponentCard";
-import Minion from "../minion";
+import CardComponent from "../hand/components/card";
+import OponentCard from "../hand/components/oponentCard";
+import Minion from "./components/minion";
 import styles from './styles.module.scss'
 import SpaceBetween, { POSTION } from './components/SpaceBetween'
 

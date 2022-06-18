@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import './App.css';
-import GameBoard from './components/gameBoard';
+import GameBoard from './views/gameBoard';
 import { connect } from "react-redux";
 import PreGame from './views/preGame';
 import { initializeSockets } from 'socket';
-import { Game, GameState, Player } from 'models';
+import { Game, Player } from 'models';
 import { isEmpty } from 'utils'
 
 interface Props {

@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 import { Game as GameState } from "models";
 import { connect, useDispatch } from "react-redux";
-import HandComponent from "../hand";
+import HandComponent from "./components/hand";
 import './styles.css';
-import Battlefield from "../battlefield";
+import Battlefield from "./components/battlefield";
 import { PlayerActions } from 'store/player/playerReducer'
 import { GameActions } from 'store/game/gameReducer'
-import PLayer from '../player'
+import PLayer from './components/player'
 
 interface Props {
     gameState: GameState,

@@ -1,18 +1,7 @@
 import { Deck, Hand, MinionContainer } from "./index"
-import { cloneDeep } from 'lodash';
-import Battlefield from "app/components/battlefield";
 import { getDeck } from 'constants/cards'
 import { Entity } from "./Entity";
 
-/*export type Player = {
-    id: number
-    battlefield: MinionContainer,
-    health: number,
-    money: number,
-    deck: Deck,
-    hand: Hand
-}
-*/
 export const copyPlayer = (player: Player) => ({
     id: player.id,
     battlefield: player.battlefield.copy(),

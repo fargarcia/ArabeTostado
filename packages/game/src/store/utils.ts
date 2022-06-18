@@ -1,7 +1,6 @@
 import { PlayerActions, OponentActions } from "./player/playerReducer"
 import { GameActions } from "./game/gameReducer"
-import { createSelector } from "@reduxjs/toolkit"
-import { GameState, Entity, Minion } from "models"
+import { Minion } from "models"
 
 interface InitPlayerData {
     id: string

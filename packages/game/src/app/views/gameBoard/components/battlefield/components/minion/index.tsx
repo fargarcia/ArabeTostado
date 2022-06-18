@@ -1,5 +1,5 @@
 import React, { useEffect } from "react"
-import { Game, GameState, Minion as MinionModel } from "models"
+import { Game, Minion as MinionModel } from "models"
 import { connect } from "react-redux";
 import { selectEntity, attackEntity } from 'store/utils'
 import styles from './styles.module.scss'
