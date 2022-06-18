@@ -1,11 +1,11 @@
 import React, { useEffect } from "react"
 import { Game, GameState, Minion as MinionModel } from "models"
 import { connect } from "react-redux";
-import { selectEntity, attackEntity } from 'redux/utils'
+import { selectEntity, attackEntity } from 'store/utils'
 import styles from './styles.module.scss'
 import { Entity } from "models/Entity";
 import { Entities } from "constants/entities";
-import { selectActiveEntity } from 'redux/selectors'
+import { selectActiveEntity } from 'store/selectors'
 
 interface Props {
     activeEntity: Entity,

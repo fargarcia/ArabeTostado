@@ -24,11 +24,14 @@
       "models/*": [
         "models/*"
       ],
+      "utils/*": [
+        "utils/*"
+      ],
       "constants/*": [
         "constants/*"
       ],
-      "redux/*": [
-        "redux/*"
+      "store/*": [
+        "store/*"
       ],
       "app/*": [
         "app/*"

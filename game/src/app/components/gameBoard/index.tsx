@@ -4,8 +4,8 @@ import { connect, useDispatch } from "react-redux";
 import HandComponent from "../hand";
 import './styles.css';
 import Battlefield from "../battlefield";
-import { PlayerActions } from 'redux/player/playerReducer'
-import { GameActions } from 'redux/game/gameReducer'
+import { PlayerActions } from 'store/player/playerReducer'
+import { GameActions } from 'store/game/gameReducer'
 import PLayer from '../player'
 
 interface Props {

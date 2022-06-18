@@ -1,7 +1,7 @@
 import React from "react"
 import { Card as CardModel } from "models"
 import styles from './styles.module.scss'
-import { selectEntity } from 'redux/utils'
+import { selectEntity } from 'store/utils'
 import { connect } from "react-redux";
 
 interface Props {

@@ -3,6 +3,16 @@ import { Card, Deck, Player, Hand, Game, MinionContainer, Minion } from "../../m
 import { createSlice, current } from "@reduxjs/toolkit";
 import { cloneDeep, min } from 'lodash';
 import { copyPlayer } from "../../models";
+import { getDeck } from 'constants/cards'
+
+const initPlayerStateAction = (state: any, { payload }: PayloadAction<number[]>) => ({
+    id: 0,
+    money: 1,
+    health: 30,
+    battlefield: new MinionContainer([]),
+    deck: new Deck(getDeck(payload)),
+    hand: new Hand([])
+})
 
 const drawCardAction = (state: any) => {
     const player = copyPlayer(state)
@@ -39,6 +49,7 @@ const playMinionAction = (state: any, { payload }: PayloadAction<any>) => {
 export default (player: string) => createReducer(
     {},
     {
+        [`${player}_INIT_STATE`]: initPlayerStateAction,
         [`${player}_DRAW_CARD`]: drawCardAction,
         [`${player}_SELECT_ENTITY`]: selectEntityAction,
         [`${player}_TAKE_DAMAGE`]: takeDamageAction,
@@ -47,6 +58,7 @@ export default (player: string) => createReducer(
 );
 
 const Actions = (player: string) => ({
+    initPlayerState: createAction<number[]>(`${player}_INIT_STATE`),
     drawCard: createAction(`${player}_DRAW_CARD`),
     selectEntity: createAction<number>(`${player}_SELECT_ENTITY`),
     takeDamage: createAction<any>(`${player}_TAKE_DAMAGE`),

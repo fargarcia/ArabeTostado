@@ -1,7 +1,9 @@
+import { GameActions, PlayerActions, OponentActions } from "store"
+import { Minion } from "models"
+
 export type GameAction = {
     type: string
-    origin?: number
-    target?: number
+    payload: object
 }
 
 const ATTACK = 'attack'
@@ -11,7 +13,30 @@ const HOVER_ENTITY = 'hoverEntity'
 const PLAY_CARD = 'playCard'
 const SELECT_ENTITY = 'selectEntity'
 const SELECT_TARGET = 'selectTarget'
+const INIT_GAME = 'initGame'
 
+interface InitPlayerData {
+    id: string
+    deck: number[]
+}
+
+interface InitGameData {
+    opener: number
+    player: InitPlayerData
+    oponent: InitPlayerData
+}
+
+
+export const selectEntity = (dispatch: any, id: number) => {
+    dispatch(PlayerActions.selectEntity(id))
+    dispatch(GameActions.selectEntity(id))
+}
+
+export const attackEntity = (dispatch: any, attacker: Minion, target: Minion, oponent: boolean = false) => {
+    dispatch(GameActions.selectEntity())
+    dispatch(PlayerActions.takeDamage({ id: attacker.id, damage: target.getAttack(), attacker: !oponent }))
+    dispatch(OponentActions.takeDamage({ id: target.id, damage: attacker.getAttack(), attacker: oponent }))
+}
 
 export const GAME_ACTIONS = {
     ATTACK,
@@ -23,7 +48,10 @@ export const GAME_ACTIONS = {
     SELECT_TARGET
 }
 
-export const executeGameAction = (dispatch: any, action: GameAction, oponent?: boolean) => {
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
+
+export const executeGameAction = async (dispatch: any, action: GameAction) => {
     switch (action.type) {
         case ATTACK:
         case CAST_SPELL:
@@ -32,6 +60,19 @@ export const executeGameAction = (dispatch: any, action: GameAction, oponent?: b
         case PLAY_CARD:
         case SELECT_ENTITY:
         case SELECT_TARGET:
+        case INIT_GAME:
+            const gameData = action.payload as InitGameData
+            dispatch(PlayerActions.initPlayerState(gameData.player.deck))
+            dispatch(OponentActions.initPlayerState(gameData.oponent.deck))
+            for (let i = 0; i < 3; i++) {
+                await delay(500)
+                dispatch(PlayerActions.drawCard())
+                dispatch(OponentActions.drawCard())
+            }
+            await delay(500)
+            dispatch((gameData.opener ? PlayerActions : OponentActions).drawCard())
+            dispatch(GameActions.initGameState(gameData.opener))
+            return
         default:
     }
 }

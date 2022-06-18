@@ -1,11 +1,11 @@
 import React, { Fragment, useEffect, useState } from "react"
 import { Card, Card as CardModel, Entity, Game, Minion } from "models"
 import styles from './styles.module.scss'
-import { selectEntity } from 'redux/utils'
+import { selectEntity } from 'store/utils'
 import { connect } from "react-redux";
-import { selectActiveEntity } from 'redux/selectors'
+import { selectActiveEntity } from 'store/selectors'
 import { Entities } from "constants/entities";
-import { PlayerActions } from 'redux/player/playerReducer'
+import { PlayerActions } from 'store/player/playerReducer'
 
 interface Props {
     activeEntity: Entity,
