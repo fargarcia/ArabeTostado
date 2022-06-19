@@ -2,30 +2,33 @@ import { Minion } from "models";
 import { Entities } from "constants/entities";
 import { Entity } from "./Entity";
 
+interface Props {
+    entity?: Entity
+    isSelected?: boolean
+    card?: Card
+}
+
 export class Card extends Entity {
-    private entity: Entity
-    readonly id: number
-    readonly name: string = ''
-    readonly cost: number = 0
-    private selected: boolean = false
-    type: number = Entities.CARD
+    private _entity: Entity
+    private _name: string
+    private _cost: number
+    private _isSelected: boolean = false
 
-    public constructor(entity: Entity, selected?: boolean) {
+    public constructor(props: Props) {
         super();
-        this.entity = entity
-        this.id = entity.getId()
-        this.selected = selected || false
-
-        if (entity.type === Entities.MINION) {
-            const minion = this.entity as unknown as Minion
-            this.name = minion.getName()
-            this.cost = minion.getCost()
-        }
+        const _entity = new Minion({ minion: (props.card ? props.card.entity : props.entity) as Minion })
+        this._entity = _entity
+        this._id = _entity.id
+        this._isSelected = props.isSelected || false
+        this._name = _entity.name
+        this._cost = _entity.cost
+        this._type = Entities.CARD
     }
-    public copy = (): Card => new Card(this.entity.copy(), this.selected)
-    public select = (select?: boolean) => this.selected = select || !this.selected
-    public isSelected = (): boolean => this.selected
-    public getContainedEntity = (): Entity => this.entity
-    public getContainedType = (): number => this.entity.type
 
+    get entity() { return this._entity }
+    get name() { return this._name }
+    get cost() { return this._cost }
+    get isSelected() { return this._isSelected }
+
+    public select = (select?: boolean) => this._isSelected = select || !this._isSelected
 }

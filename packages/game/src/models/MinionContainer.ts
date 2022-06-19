@@ -1,25 +1,24 @@
 import { Minion } from "./Minion";
 import { cloneDeep } from 'lodash';
 
-interface Props {
-    minions?: Minion[]
-    minionContainer?: MinionContainer
-}
-
 export class MinionContainer {
-    public minions: Minion[]
+    private _minions: Minion[]
 
-    constructor(minions?: Minion[]) {
-        this.minions = minions || []
+    constructor(minions?: Minion[] | MinionContainer) {
+        this._minions = !minions
+        ? []
+        : Array.isArray(minions)
+            ? minions
+            : minions.minions.map(minion => new Minion(minion))
     }
 
-    public addMinion = (minion: Minion) => this.minions.push(minion)
-    public getMinions = (): Minion[] => this.minions.map(minion => cloneDeep(minion))
-    public findById = (id: number) => this.minions.find(minion => minion.getId() === id)
-    public copy = (): MinionContainer => new MinionContainer(this.minions.map(minion => minion.copy()))
+    get minions() { return this._minions }
+
+    public addMinion = (minion: Minion) => this._minions.push(minion)
+    public findById = (id: number) => this._minions.find(minion => minion.id === id)
     public removeMinion = (removedMinion: Minion) => {
-        this.minions = this.minions.filter(minion => minion.id !== removedMinion.id)
+        this._minions = this._minions.filter(minion => minion.id !== removedMinion.id)
     }
-    public addOnPostion = (minion: Minion, index: number) => this.minions.splice(index, 0, minion)
-    public unselect = () => this.minions.find(minion => minion.selected)?.select()
+    public addOnPostion = (minion: Minion, index: number) => this._minions.splice(index, 0, minion)
+    public unselect = () => this._minions.find(minion => minion.isSelected)?.select()
 }

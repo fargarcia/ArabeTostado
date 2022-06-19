@@ -2,7 +2,7 @@ import { Card, Minion } from "models";
 import rawMinions from "./minions";
 
 export const playableMinions = rawMinions.map(rawMinion => new Minion(rawMinion))
-export const playableMinionsCards = playableMinions.map(minion => new Card(minion))
+export const playableMinionsCards = playableMinions.map(minion => new Card({ entity: minion }))
 
 export const playableCards = playableMinionsCards;
 
@@ -23,4 +23,4 @@ export const samples = {
     sampleCards5: playableMinionsCards.slice(chunc * 5, chunc * 6),
 }
 
-export const getDeck = (ids: number[]) => playableMinionsCards.filter(card => ids.includes(card.id))
+export const getDeck = (ids: number[]) => playableCards.filter(card => ids.includes(card.id))

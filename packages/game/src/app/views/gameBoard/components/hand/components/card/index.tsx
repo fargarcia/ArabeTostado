@@ -11,7 +11,7 @@ interface Props {
 
 const CardComponent = ({ card, dispatch }: Props) => {
     return (
-        <div className={`${styles.card} ${card.isSelected() && styles.selected}`} onClick={() => selectEntity(dispatch, card.id)}>
+        <div className={`${styles.card} ${card.isSelected && styles.selected}`} onClick={() => selectEntity(dispatch, card.id)}>
             <div>{card.name}</div>
             <div className={styles.cost}>{card.cost}</div>
         </div>

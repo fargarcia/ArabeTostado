@@ -1,9 +1,5 @@
 import { createAction, createReducer, PayloadAction } from "@reduxjs/toolkit";
-import { Card, Deck, Player, Hand, Game, MinionContainer, Minion } from "../../models";
-import { createSlice, current } from "@reduxjs/toolkit";
-import { cloneDeep, min } from 'lodash';
-import { copyPlayer } from "../../models";
-import { getDeck } from 'constants/cards'
+import { Player, Minion } from "models";
 
 interface InitPlayerState {
     deck: number[]
@@ -13,19 +9,19 @@ interface InitPlayerState {
 const initPlayerStateAction = (state: any, { payload }: PayloadAction<InitPlayerState>) => {
     const newPlayer = new Player({
         id: payload.opener ? 1 : 2,
-        deck: payload.deck
+        cards: payload.deck
     })
     return newPlayer
 }
 
 const drawCardAction = (state: any) => {
-    const player = copyPlayer(state)
+    const player = new Player({ player: state })
     player.hand.addCard(player.deck.draw())
     return player
 };
 
 const selectEntityAction = (state: any, { payload }: PayloadAction<number>) => {
-    const player = copyPlayer(state)
+    const player = new Player({ player: state })
     player.battlefield.unselect()
     player.hand.unselect()
     const entity = player.battlefield.findById(payload) || player.hand.findById(payload)
@@ -34,9 +30,9 @@ const selectEntityAction = (state: any, { payload }: PayloadAction<number>) => {
 };
 
 const takeDamageAction = (state: any, { payload }: any) => {
-    const player = copyPlayer(state)
+    const player = new Player({ player: state })
     const minion: Minion = player.battlefield.findById(payload.id)!
-    minion.takeDamage(payload.damage, payload.attacker)
+    minion.takeDamage(payload.damageTaken, payload.attacker)
     if (minion.isDead()) player.battlefield.removeMinion(minion)
     player.battlefield.unselect()
     player.hand.unselect()
@@ -44,9 +40,11 @@ const takeDamageAction = (state: any, { payload }: any) => {
 };
 
 const playMinionAction = (state: any, { payload }: PayloadAction<any>) => {
-    const player = copyPlayer(state)
-    player.battlefield.addOnPostion(payload.card.entity as Minion, payload.index)
-    player.hand.removeCard(payload.card)
+    const player = new Player({ player: state })
+    player.battlefield.addOnPostion(
+        player.hand.playById(payload.card).entity as Minion,
+        payload.index
+    )
     return player
 }
 

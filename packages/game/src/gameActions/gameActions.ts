@@ -1,11 +1,22 @@
 import { GameActions, PlayerActions, OponentActions } from "store"
-import { Minion, Player } from "models"
+import { Card, Entity, Minion, Player } from "models"
 import { GAME_ACTIONS } from "shared/gameActions"
+import { Entities } from "constants/entities";
+import { sendAction } from "socket"
+
+interface InitPlayerData {
+    id: string
+    deck: number[]
+}
 
 interface GameActionPayload {
-    origin?: Minion
-    target?: Minion | Player
+    origin?: any
+    target?: any
+    opener?: boolean
+    player?: InitPlayerData
+    oponent?: InitPlayerData
 }
+
 
 export type GameAction = {
     type: string
@@ -23,58 +34,50 @@ const {
     INIT_GAME
 } = GAME_ACTIONS
 
-interface InitPlayerData {
-    id: string
-    deck: number[]
-}
-
-interface InitGameData {
-    opener: boolean
-    player: InitPlayerData
-    oponent: InitPlayerData
-}
-
-
-export const selectEntity = (dispatch: any, id: number) => {
-    dispatch(PlayerActions.selectEntity(id))
-    dispatch(GameActions.selectEntity(id))
-}
-
-export const attackEntity = (dispatch: any, attacker: Minion, target: Minion, oponent: boolean = false) => {
-    dispatch(GameActions.selectEntity())
-    dispatch(PlayerActions.takeDamage({ id: attacker.id, damage: target.getAttack(), attacker: !oponent }))
-    dispatch(OponentActions.takeDamage({ id: target.id, damage: attacker.getAttack(), attacker: oponent }))
-}
+const {
+    PLAYER,
+    CARD,
+    MINION,
+    SPELL
+} = Entities
 
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
-
-export const executeGameAction = async (dispatch: any, action: GameAction) => {
-    const { origin, target} = action.payload
-
+export const executeGameAction = async (dispatch: any, action: GameAction, fromOponent?: boolean) => {
+    let { origin, target, player, oponent, opener } = action.payload
+    if (!fromOponent) sendAction(action)
     switch (action.type) {
         case ATTACK:
             dispatch(GameActions.selectEntity())
-            dispatch(PlayerActions.takeDamage({ id: origin!.id, damage: (typeof target === Minion)?target.getAttack():0, attacker: !oponent }))
-            dispatch(OponentActions.takeDamage({ id: target.id, damage: origin!.getAttack(), attacker: oponent }))
+            dispatch(PlayerActions.takeDamage(fromOponent ? target : origin))
+            dispatch(OponentActions.takeDamage(fromOponent ? origin : target))
+            return
         case CAST_SPELL:
         case END_TURN:
         case HOVER_ENTITY:
         case PLAY_CARD:
+            dispatch((fromOponent ? OponentActions : PlayerActions).playMinion({
+                card: origin as number,
+                index: target as number
+            }))
+            return
         case SELECT_ENTITY:
+            target = target as number
+            dispatch((fromOponent ? OponentActions : PlayerActions).selectEntity(target))
+            dispatch(GameActions.selectEntity(target))
+            return
         case SELECT_TARGET:
         case INIT_GAME:
-            const gameData = action.payload as InitGameData
-            dispatch(PlayerActions.initPlayerState({deck: gameData.player.deck, opener: gameData.opener}))
-            dispatch(OponentActions.initPlayerState({deck: gameData.oponent.deck, opener: !gameData.opener}))
+            dispatch(PlayerActions.initPlayerState({ deck: player!.deck, opener: opener! }))
+            dispatch(OponentActions.initPlayerState({ deck: oponent!.deck, opener: !opener }))
             for (let i = 0; i < 3; i++) {
                 await delay(500)
                 dispatch(PlayerActions.drawCard())
                 dispatch(OponentActions.drawCard())
             }
             await delay(500)
-            dispatch((!gameData.opener ? PlayerActions : OponentActions).drawCard())
-            dispatch(GameActions.initGameState(gameData.opener))
+            dispatch((opener ? PlayerActions : OponentActions).drawCard())
+            dispatch(GameActions.initGameState(opener!))
             return
         default:
     }

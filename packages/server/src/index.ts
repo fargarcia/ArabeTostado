@@ -27,20 +27,25 @@ interface Player {
 let waitingList: Player[] = []
 const gameRooms: GameRooms = new GameRooms()
 
-const INIT_GAME = 'initGame'
+/* const {
+    INIT_GAME,
+    GAME_ACTION,
+    CONNECT,
+    SEND_MESSAGE,
+    SEARCH_GAME
+} = SOCKET_EVENTS */
 
 const GAME_ACTION = 'gameAction'
+const SEARCH_GAME = 'searchGame'
+const SEND_MESSAGE = 'sendMessage'
+const INIT_GAME = 'initGame'
 const CONNECT = 'connection'
-// const DISCONNECT = 'disconnect'
-const SEND_MESSAGE = "sendMessage"
-const SEARCH_GAME = "searchGame"
 
-io.on(CONNECT, socket => {
+io.on(CONNECT, (socket: any) => {
     const { id } = socket
 
     socket.emit(SEND_MESSAGE, "Conectado al servidor");
-
-    socket.on(SEARCH_GAME, deck => {
+    socket.on(SEARCH_GAME, (deck: number[]) => {
         socket.emit(SEND_MESSAGE, 'Buscando partida');
         if (!deck) waitingList = waitingList.filter(player => player.id !== id)
         else if (waitingList.length == 0) waitingList.push({ id, deck })
@@ -71,5 +76,10 @@ io.on(CONNECT, socket => {
             })
         }
     })
+
+    socket.on(GAME_ACTION, (action: any) => {
+        socket.to(gameRooms.findOponent(id)).emit(GAME_ACTION, action)
+    }
+    )
 })
 

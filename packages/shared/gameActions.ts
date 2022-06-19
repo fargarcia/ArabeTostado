@@ -17,8 +17,3 @@ export const GAME_ACTIONS = {
     SELECT_TARGET,
     INIT_GAME
 }
-
-export type GameAction = {
-    type: string
-    payload: object
-}

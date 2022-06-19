@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"
 import { Game, Minion as MinionModel, Player as PlayerModel } from "models"
 import { connect } from "react-redux";
-import { selectEntity, attackEntity } from 'store/utils'
+import { selectEntity } from 'store/utils'
 import styles from './styles.module.scss'
 import { Entity } from "models/Entity";
 import { Entities } from "constants/entities";

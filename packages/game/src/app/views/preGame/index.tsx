@@ -30,6 +30,7 @@ const PreGame = () => {
         <div
             className={`${styles.card} ${selectedCards.includes(card.id) && styles.selected}`}
             onClick={() => onClickCard(card.id)}
+            key={`card:${card.id}`}
         >
             <div>{card.name}</div>
             <div className={styles.cost}>{card.cost}</div>

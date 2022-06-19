@@ -19,8 +19,8 @@ const GameBoardComponent = ({ dispatch, gameState }: Props) => {
         <div className="GameBoard">
             <PLayer oponent player={gameState.oponent} />
             <HandComponent oponent hand={gameState.oponent.hand} />
-            <Battlefield oponent minions={gameState.oponent.battlefield} />
-            <Battlefield minions={gameState.player.battlefield} />
+            <Battlefield oponent minionContainer={gameState.oponent.battlefield} />
+            <Battlefield minionContainer={gameState.player.battlefield} />
             <HandComponent hand={gameState.player.hand} />
             <PLayer player={gameState.player} />
             <button className="Button" onClick={() => dispatch(PlayerActions.drawCard())}>drawCard</button>

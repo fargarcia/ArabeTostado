@@ -14,7 +14,7 @@ const HandComponent = ({ hand, oponent }: Props) => {
 
     return (
         <div className={styles.hand}>
-            {hand.getCards().map(renderCard)}
+            {hand.cards.map(renderCard)}
         </div>
     )
 }
