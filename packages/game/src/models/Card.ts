@@ -1,5 +1,5 @@
 import { Minion } from "models";
-import { Entities } from "constants/entities";
+import { ENTITY_TYPES } from "constants/entities";
 import { Entity } from "./Entity";
 
 interface Props {
@@ -12,7 +12,6 @@ export class Card extends Entity {
     private _entity: Entity
     private _name: string
     private _cost: number
-    private _isSelected: boolean = false
 
     public constructor(props: Props) {
         super();
@@ -22,13 +21,10 @@ export class Card extends Entity {
         this._isSelected = props.isSelected || false
         this._name = _entity.name
         this._cost = _entity.cost
-        this._type = Entities.CARD
+        this._type = ENTITY_TYPES.CARD
     }
 
     get entity() { return this._entity }
     get name() { return this._name }
     get cost() { return this._cost }
-    get isSelected() { return this._isSelected }
-
-    public select = (select?: boolean) => this._isSelected = select || !this._isSelected
 }

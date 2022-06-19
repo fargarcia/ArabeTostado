@@ -1,16 +1,21 @@
 import { createSelector } from "@reduxjs/toolkit"
 import { Entity } from "models/Entity"
-import { GameState } from "models/Game"
+import { Game, GameState } from "models/Game"
 import { Player } from "models/Player"
 
-const selectGameState = (store: any) => store.state
-const selectPlayer = (store: any) => store.player
-const selectOponent = (store: any) => store.oponent
-
+export const selectGameState = (store: Game) => store.gameState
+export const selectPlayer = (store: Game) => store.player
+export const selectOponent = (store: Game) => store.oponent
 export const selectActiveEntity = createSelector(
     selectGameState,
     selectPlayer,
-    (state: GameState, player: Player) =>
-        player.battlefield.findById(state.activeEntity) || player.hand.findById(state.activeEntity) || new Entity()
+    selectOponent,
+    (gameState: GameState, player: Player, oponent: Player) =>
+        (gameState.activePlayer ? player : oponent).battlefield.findById(gameState.activeEntity) ||
+        (gameState.activePlayer ? player : oponent).hand.findById(gameState.activeEntity) ||
+        new Entity()
 
+)
+export const selectActivePlayer = createSelector(
+    selectGameState, (gameState: GameState) => gameState.activePlayer
 )

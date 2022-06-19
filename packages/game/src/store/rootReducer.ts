@@ -1,7 +1,8 @@
-import playerReducer from "./player/playerReducer";
+import playerReducer, {PLAYER, OPONENT} from "./player/playerReducer";
 import gameReducer from "./game/gameReducer";
+
 export default {
-    state: gameReducer,
-    player: playerReducer('PLAYER'),
-    oponent: playerReducer('OPONENT'),
+    gameState: gameReducer,
+    player: playerReducer(PLAYER),
+    oponent: playerReducer(OPONENT),
 };

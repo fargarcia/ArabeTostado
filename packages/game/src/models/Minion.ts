@@ -1,4 +1,4 @@
-import { Entities } from "constants/entities"
+import { ENTITY_TYPES } from "constants/entities"
 import { Entity } from "./Entity"
 
 export interface Props {
@@ -12,36 +12,34 @@ export interface Props {
 
 export class Minion extends Entity {
     private _attack: number
+    private _canAttack: boolean
     private _cost: number
-    private _hasAttacked: boolean
     private _health: number
     private _name: string
-    private _isSelected: boolean
 
     constructor(props: Props) {
         super()
-        const {attack, id, name, health, cost, minion} = props
-        this._id =  minion?.id || id!
-        this._name =  minion?.name || name!
-        this._attack =  minion?.attack || attack!
+        const { attack, id, name, health, cost, minion } = props
+        this._id = minion?.id || id!
+        this._name = minion?.name || name!
+        this._attack = minion?.attack || attack!
         this._health = minion?.health || health!
-        this._cost =  minion?.cost || cost!
-        this._hasAttacked = minion?.hasAttacked || false
+        this._cost = minion?.cost || cost!
+        this._canAttack = minion?.canAttack || false
         this._isSelected = minion?.isSelected || false
-        this._type = Entities.MINION
+        this._type = ENTITY_TYPES.MINION
     }
 
     get attack() { return this._attack }
+    get canAttack() { return this._canAttack }
     get cost() { return this._cost }
-    get hasAttacked() { return this._hasAttacked }
     get health() { return this._health }
     get name() { return this._name }
-    get isSelected() { return this._isSelected }
 
     takeDamage = (damage: number, attacker: boolean) => {
-        if (attacker) this._hasAttacked = true
+        if (attacker) this._canAttack = false
         this._health -= damage
     }
     isDead = (): boolean => this._health <= 0
-    select = () => this._isSelected = !this._isSelected
+    enableAttack = () => this._canAttack = true
 }

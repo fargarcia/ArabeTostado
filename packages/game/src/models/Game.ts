@@ -1,7 +1,7 @@
 import { Player } from "./index"
 
 export type Game = {
-    state: GameState,
+    gameState: GameState,
     player: Player,
     oponent: Player
 }

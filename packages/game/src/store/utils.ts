@@ -14,7 +14,7 @@ interface InitGameData {
 }
 
 
-export const selectEntity = (dispatch: any, id: number) => {
+export const selectEntity = (dispatch: Function, id: number) => {
     dispatch(PlayerActions.selectEntity(id))
     dispatch(GameActions.selectEntity(id))
 }

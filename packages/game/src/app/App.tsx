@@ -8,7 +8,7 @@ import { Game, Player } from 'models';
 import { isEmpty } from 'utils'
 
 interface Props {
-  dispatch: any
+  dispatch: Function
   player: Player
 }
 
@@ -25,8 +25,8 @@ const App = ({ dispatch, player }: Props) => {
   )
 };
 
-const mapStateToProps = (state: Game): { player: Player } => ({
-  player: state.player
+const mapStateToProps = (gameState: Game): { player: Player } => ({
+  player: gameState.player
 })
 
 export default connect(mapStateToProps)(App)

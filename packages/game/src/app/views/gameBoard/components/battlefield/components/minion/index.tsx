@@ -4,24 +4,27 @@ import { connect } from "react-redux";
 import { selectEntity } from 'store/utils'
 import styles from './styles.module.scss'
 import { Entity } from "models/Entity";
-import { Entities } from "constants/entities";
-import { selectActiveEntity } from 'store/selectors'
+import { ENTITY_TYPES } from "constants/entities";
+import { selectActiveEntity, selectActivePlayer } from 'store/selectors'
 import { executeGameAction } from "gameActions/gameActions";
 import { GAME_ACTIONS } from "shared/gameActions"
 
 
 interface Props {
     activeEntity: Entity,
+    activePlayer: boolean,
     minion: MinionModel,
-    dispatch: any,
+    dispatch: Function,
     oponent?: boolean
 }
 
-const Minion = ({ activeEntity, dispatch, minion, oponent }: Props) => {
+const Minion = ({ activeEntity, activePlayer, dispatch, minion, oponent }: Props) => {
+    const canAttack = !oponent && activePlayer && minion.canAttack
+    const canBeTargeted = oponent && activeEntity.type === ENTITY_TYPES.MINION
 
     const haddleClick = () => {
-        if (!oponent && !minion.hasAttacked) selectEntity(dispatch, minion.id)
-        else if (activeEntity.type === Entities.MINION)
+        if (canAttack) selectEntity(dispatch, minion.id)
+        else if (canBeTargeted)
             executeGameAction(dispatch,
                 {
                     type: GAME_ACTIONS.ATTACK,
@@ -45,7 +48,8 @@ const Minion = ({ activeEntity, dispatch, minion, oponent }: Props) => {
                 ${styles.minion} 
                 ${minion.isSelected && styles.selected} 
                 ${oponent && styles.enemyMinion}
-                ${!minion.hasAttacked && styles.hasNotAttacked}
+                ${canAttack && !activeEntity.id && styles.canAttack}
+                ${canBeTargeted && styles.canBeTargeted}
             `}
             onClick={haddleClick}
         >
@@ -58,8 +62,9 @@ const Minion = ({ activeEntity, dispatch, minion, oponent }: Props) => {
     )
 }
 
-const mapStateToProps = (state: Game): { activeEntity: Entity } => ({
-    activeEntity: selectActiveEntity(state)
+const mapStateToProps = (store: Game): { activeEntity: Entity, activePlayer: boolean } => ({
+    activeEntity: selectActiveEntity(store),
+    activePlayer: selectActivePlayer(store)
 })
 
 export default connect(mapStateToProps)(Minion);

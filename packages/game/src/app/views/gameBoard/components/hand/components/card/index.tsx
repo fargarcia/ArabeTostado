@@ -1,21 +1,43 @@
 import React from "react"
-import { Card as CardModel } from "models"
+import { Card as CardModel, GameState, Player, Game, Entity } from "models"
 import styles from './styles.module.scss'
 import { selectEntity } from 'store/utils'
 import { connect } from "react-redux";
+import { selectActiveEntity, selectActivePlayer, selectPlayer } from 'store/selectors'
 
 interface Props {
-    card: CardModel,
-    dispatch: any
+    activeEntity: Entity
+    activePlayer: boolean
+    card: CardModel
+    dispatch: Function
+    money: number
 }
 
-const CardComponent = ({ card, dispatch }: Props) => {
+const CardComponent = ({ activeEntity, activePlayer, card, dispatch, money }: Props) => {
+    const canPlayCard = activePlayer && money >= card.cost
     return (
-        <div className={`${styles.card} ${card.isSelected && styles.selected}`} onClick={() => selectEntity(dispatch, card.id)}>
+        <div
+            className={`
+            ${styles.card} 
+            ${canPlayCard && !activeEntity.id && styles.canBePlayed}
+            ${card.isSelected && styles.selected}
+            `}
+            onClick={() => canPlayCard && selectEntity(dispatch, card.id)}
+        >
             <div>{card.name}</div>
             <div className={styles.cost}>{card.cost}</div>
         </div>
     )
 }
 
-export default connect()(CardComponent)
+const mapStateToProps = (store: Game): {
+    activeEntity: Entity,
+    activePlayer: boolean,
+    money: number
+} => ({
+    activeEntity: selectActiveEntity(store),
+    activePlayer: selectActivePlayer(store),
+    money: selectPlayer(store).currentMoney
+})
+
+export default connect(mapStateToProps)(CardComponent);

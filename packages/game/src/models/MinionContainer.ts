@@ -6,10 +6,10 @@ export class MinionContainer {
 
     constructor(minions?: Minion[] | MinionContainer) {
         this._minions = !minions
-        ? []
-        : Array.isArray(minions)
-            ? minions
-            : minions.minions.map(minion => new Minion(minion))
+            ? []
+            : Array.isArray(minions)
+                ? minions
+                : minions.minions.map(minion => new Minion({ minion }))
     }
 
     get minions() { return this._minions }
@@ -21,4 +21,7 @@ export class MinionContainer {
     }
     public addOnPostion = (minion: Minion, index: number) => this._minions.splice(index, 0, minion)
     public unselect = () => this._minions.find(minion => minion.isSelected)?.select()
+    public enableAttack = (id?: number) => id
+        ? this._minions.find(minion => minion.id === id)?.enableAttack()
+        : this._minions.forEach(minion => minion.enableAttack())
 }

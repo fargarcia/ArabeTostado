@@ -1,71 +1,90 @@
 import { createAction, createReducer, PayloadAction } from "@reduxjs/toolkit";
-import { Player, Minion } from "models";
+import { ENTITY_TYPES } from "constants/entities";
+import { Player, Minion, Entity } from "models";
+import {
+    ACTIONS,
+    PLAYER,
+    OPONENT,
+    InitPlayerState,
+    PlayMinion,
+    TakeDamageAction
+} from "./constants"
 
-interface InitPlayerState {
-    deck: number[]
-    opener: boolean
-}
-
-const initPlayerStateAction = (state: any, { payload }: PayloadAction<InitPlayerState>) => {
+const initPlayerStateAction = (player: any, { payload }: PayloadAction<InitPlayerState>) => {
     const newPlayer = new Player({
         id: payload.opener ? 1 : 2,
-        cards: payload.deck
+        cards: payload.deck,
+        maxMoney: payload.opener ? 1 : 0
     })
     return newPlayer
 }
 
-const drawCardAction = (state: any) => {
-    const player = new Player({ player: state })
-    player.hand.addCard(player.deck.draw())
-    return player
+const drawCardAction = (player: any) => {
+    const newPlayer = new Player({ player })
+    newPlayer.draw()
+    return newPlayer
 };
 
-const selectEntityAction = (state: any, { payload }: PayloadAction<number>) => {
-    const player = new Player({ player: state })
-    player.battlefield.unselect()
-    player.hand.unselect()
-    const entity = player.battlefield.findById(payload) || player.hand.findById(payload)
-    entity?.select()
-    return player
+const selectEntityAction = (player: any, { payload }: PayloadAction<number | undefined>) => {
+    const newPlayer = new Player({ player })
+    if (payload) {
+        const target = newPlayer.findById(payload)!
+        if (!target?.isSelected) newPlayer.unselect()
+        target.select()
+    } else newPlayer.unselect()
+    return newPlayer
 };
 
-const takeDamageAction = (state: any, { payload }: any) => {
-    const player = new Player({ player: state })
-    const minion: Minion = player.battlefield.findById(payload.id)!
-    minion.takeDamage(payload.damageTaken, payload.attacker)
-    if (minion.isDead()) player.battlefield.removeMinion(minion)
-    player.battlefield.unselect()
-    player.hand.unselect()
-    return player
+const takeDamageAction = (player: any, { payload }: PayloadAction<TakeDamageAction>) => {
+    const newPlayer = new Player({ player })
+    const entity: Entity = newPlayer.findById(payload.id)!
+    if (entity.type === ENTITY_TYPES.PLAYER) {
+        (entity as Player).takeDamage(payload.damageTaken)
+    } else {
+        (entity as Minion).takeDamage(payload.damageTaken, payload.attacker)
+        if ((entity as Minion).isDead()) newPlayer.battlefield.removeMinion((entity as Minion))
+    }
+    newPlayer.unselect()
+    return newPlayer
 };
 
-const playMinionAction = (state: any, { payload }: PayloadAction<any>) => {
-    const player = new Player({ player: state })
-    player.battlefield.addOnPostion(
-        player.hand.playById(payload.card).entity as Minion,
+const playMinionAction = (player: any, { payload }: PayloadAction<PlayMinion>) => {
+    const newPlayer = new Player({ player })
+    newPlayer.substractMoney(payload.cost)
+    newPlayer.battlefield.addOnPostion(
+        newPlayer.hand.playById(payload.id).entity as Minion,
         payload.index
     )
-    return player
+    return newPlayer
 }
+
+const startTurnAction = (player: any) => {
+    const newPlayer = new Player({ player })
+    newPlayer.initTurn()
+    return newPlayer
+};
 
 export default (player: string) => createReducer(
     {},
     {
-        [`${player}_INIT_STATE`]: initPlayerStateAction,
-        [`${player}_DRAW_CARD`]: drawCardAction,
-        [`${player}_SELECT_ENTITY`]: selectEntityAction,
-        [`${player}_TAKE_DAMAGE`]: takeDamageAction,
-        [`${player}_PLAY_MINION`]: playMinionAction
+        [ACTIONS(player).PLAYER_INIT_STATE]: initPlayerStateAction,
+        [ACTIONS(player).PLAYER_DRAW_CARD]: drawCardAction,
+        [ACTIONS(player).PLAYER_SELECT_ENTITY]: selectEntityAction,
+        [ACTIONS(player).PLAYER_TAKE_DAMAGE]: takeDamageAction,
+        [ACTIONS(player).PLAYER_PLAY_MINION]: playMinionAction,
+        [ACTIONS(player).PLAYER_START_TURN]: startTurnAction,
     }
-);
+)
 
 const Actions = (player: string) => ({
-    initPlayerState: createAction<InitPlayerState>(`${player}_INIT_STATE`),
-    drawCard: createAction(`${player}_DRAW_CARD`),
-    selectEntity: createAction<number>(`${player}_SELECT_ENTITY`),
-    takeDamage: createAction<any>(`${player}_TAKE_DAMAGE`),
-    playMinion: createAction<any>(`${player}_PLAY_MINION`)
+    initPlayerState: createAction<InitPlayerState>(ACTIONS(player).PLAYER_INIT_STATE),
+    drawCard: createAction(ACTIONS(player).PLAYER_DRAW_CARD),
+    selectEntity: createAction<number | undefined>(ACTIONS(player).PLAYER_SELECT_ENTITY),
+    takeDamage: createAction<TakeDamageAction>(ACTIONS(player).PLAYER_TAKE_DAMAGE),
+    playMinion: createAction<PlayMinion>(ACTIONS(player).PLAYER_PLAY_MINION),
+    startTurn: createAction(ACTIONS(player).PLAYER_START_TURN),
 })
 
-export const PlayerActions = Actions('PLAYER')
-export const OponentActions = Actions('OPONENT')
+export const PlayerActions = Actions(PLAYER)
+export const OponentActions = Actions(OPONENT)
+export * from './constants'

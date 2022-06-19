@@ -1,35 +1,37 @@
 import React, { useEffect } from "react";
-import { Game as GameState } from "models";
-import { connect, useDispatch } from "react-redux";
+import { Game, Player as PlayerModel } from "models";
+import { connect } from "react-redux";
 import HandComponent from "./components/hand";
 import './styles.css';
 import Battlefield from "./components/battlefield";
-import { PlayerActions } from 'store/player/playerReducer'
-import { GameActions } from 'store/game/gameReducer'
-import PLayer from './components/player'
+import Player from './components/player'
+import EndTurnButton from './components/endTurnButton'
+import { selectPlayer, selectOponent } from 'store/selectors'
+
 
 interface Props {
-    gameState: GameState,
-    dispatch: Function
+    oponent: PlayerModel
+    player: PlayerModel
 }
 
-const GameBoardComponent = ({ dispatch, gameState }: Props) => {
+const GameBoardComponent = ({ oponent, player }: Props) => {
 
     return (
         <div className="GameBoard">
-            <PLayer oponent player={gameState.oponent} />
-            <HandComponent oponent hand={gameState.oponent.hand} />
-            <Battlefield oponent minionContainer={gameState.oponent.battlefield} />
-            <Battlefield minionContainer={gameState.player.battlefield} />
-            <HandComponent hand={gameState.player.hand} />
-            <PLayer player={gameState.player} />
-            <button className="Button" onClick={() => dispatch(PlayerActions.drawCard())}>drawCard</button>
+            <Player oponent player={oponent} />
+            <HandComponent oponent hand={oponent.hand} />
+            <Battlefield oponent minionContainer={oponent.battlefield} />
+            <Battlefield minionContainer={player.battlefield} />
+            <HandComponent hand={player.hand} />
+            <Player player={player} />
+            <EndTurnButton />
         </div>
     )
 }
 
-const mapStateToProps = (state: GameState): { gameState: GameState } => ({
-    gameState: state
+const mapStateToProps = (store: Game): { player: PlayerModel, oponent: PlayerModel } => ({
+    player: selectPlayer(store),
+    oponent: selectOponent(store)
 })
 
 export default connect(mapStateToProps)(GameBoardComponent);

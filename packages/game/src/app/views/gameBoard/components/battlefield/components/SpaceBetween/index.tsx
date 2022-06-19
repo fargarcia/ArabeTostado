@@ -1,18 +1,16 @@
-import React, { Fragment, useEffect, useState } from "react"
-import { Card,  Entity, Game, Minion } from "models"
+import React, { useEffect, useState } from "react"
+import { Card, Entity, Game, Minion } from "models"
 import styles from './styles.module.scss'
-import { selectEntity } from 'store/utils'
 import { connect } from "react-redux";
 import { selectActiveEntity } from 'store/selectors'
-import { Entities } from "constants/entities";
-import { PlayerActions } from 'store/player/playerReducer'
+import { ENTITY_TYPES } from "constants/entities";
 import { executeGameAction } from "gameActions/gameActions";
 import { GAME_ACTIONS } from "shared/gameActions"
 
 
 interface Props {
     activeEntity: Entity,
-    dispatch: any,
+    dispatch: Function,
     index: number,
     position: string
 }
@@ -21,7 +19,7 @@ const SpaceBetween = ({ activeEntity, dispatch, index, position }: Props) => {
     const [minionSelected, setMinionSelected] = useState<Minion>()
 
     useEffect(() => {
-        if ((activeEntity as Card)?.entity?.type === Entities.MINION)
+        if ((activeEntity as Card)?.entity?.type === ENTITY_TYPES.MINION)
             setMinionSelected((activeEntity as Card).entity as Minion)
         else setMinionSelected(undefined)
     }, [activeEntity])
@@ -29,7 +27,13 @@ const SpaceBetween = ({ activeEntity, dispatch, index, position }: Props) => {
     const onClick = () => minionSelected && executeGameAction(dispatch,
         {
             type: GAME_ACTIONS.PLAY_CARD,
-            payload: { origin: activeEntity.id, target: index }
+            payload: {
+                origin: {
+                    id: activeEntity.id,
+                    cost: (activeEntity as Card).cost
+                },
+                target: index
+            }
         })
 
     return (
@@ -49,8 +53,8 @@ const SpaceBetween = ({ activeEntity, dispatch, index, position }: Props) => {
     )
 }
 
-const mapStateToProps = (state: Game): { activeEntity: Entity } => ({
-    activeEntity: selectActiveEntity(state)
+const mapStateToProps = (store: Game): { activeEntity: Entity } => ({
+    activeEntity: selectActiveEntity(store)
 })
 
 export default connect(mapStateToProps)(SpaceBetween)

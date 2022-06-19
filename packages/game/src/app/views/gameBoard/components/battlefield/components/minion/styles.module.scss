@@ -19,11 +19,15 @@
     position: relative;
 }
 
-.hasNotAttacked {
+.canAttack {
+    border: solid;
+    border-color: gold;
+
     &:hover {
-        border: solid;
+        border-color: black;
     }
 }
+
 
 .stats {
     display: flex;
@@ -43,11 +47,18 @@
     /* Chrome10-25,Safari5.1-6 */
     background: linear-gradient(45deg, rgba(0, 0, 200, 1) 0%, rgba(0, 0, 240, 1) 99%);
 
-    &:hover {
-        border: none;
-    }
+    border: none;
 }
 
 .enemyMinion {
     margin: 0 10px;
+}
+
+.canBeTargeted {
+    border: solid;
+    border-color: gold;
+
+    &:hover {
+        border-color: black;
+    }
 }

@@ -19,15 +19,21 @@
     /* IE6-9 fallback on horizontal gradient */
     position: relative;
 
-    &:hover {
-        border: solid;
-    }
 }
 
 .cost {
     position: absolute;
     top: 8px;
     left: 8px;
+}
+
+.canBePlayed {
+    border: solid;
+    border-color: gold;
+
+    &:hover {
+        border-color: black;
+    }
 }
 
 .selected {
@@ -39,7 +45,5 @@
     /* Chrome10-25,Safari5.1-6 */
     background: linear-gradient(45deg, rgba(0, 0, 200, 1) 0%, rgba(0, 0, 240, 1) 99%);
 
-    &:hover {
-        border: none;
-    }
+    border: none !important;
 }

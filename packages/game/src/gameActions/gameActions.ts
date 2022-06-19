@@ -1,7 +1,7 @@
 import { GameActions, PlayerActions, OponentActions } from "store"
 import { Card, Entity, Minion, Player } from "models"
 import { GAME_ACTIONS } from "shared/gameActions"
-import { Entities } from "constants/entities";
+import { ENTITY_TYPES } from "constants/entities";
 import { sendAction } from "socket"
 
 interface InitPlayerData {
@@ -20,7 +20,7 @@ interface GameActionPayload {
 
 export type GameAction = {
     type: string
-    payload: GameActionPayload
+    payload?: GameActionPayload
 }
 
 const {
@@ -39,12 +39,12 @@ const {
     CARD,
     MINION,
     SPELL
-} = Entities
+} = ENTITY_TYPES
 
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
-export const executeGameAction = async (dispatch: any, action: GameAction, fromOponent?: boolean) => {
-    let { origin, target, player, oponent, opener } = action.payload
+export const executeGameAction = async (dispatch: Function, action: GameAction, fromOponent?: boolean) => {
+    let { origin, target, player, oponent, opener } = action.payload || {}
     if (!fromOponent) sendAction(action)
     switch (action.type) {
         case ATTACK:
@@ -54,10 +54,16 @@ export const executeGameAction = async (dispatch: any, action: GameAction, fromO
             return
         case CAST_SPELL:
         case END_TURN:
+            dispatch(GameActions.selectEntity())
+            dispatch((fromOponent ? OponentActions : PlayerActions).selectEntity())
+            dispatch((fromOponent ? PlayerActions : OponentActions).startTurn())
+            dispatch(GameActions.switchActivePlayer())
+            return
         case HOVER_ENTITY:
         case PLAY_CARD:
+            dispatch(GameActions.selectEntity())
             dispatch((fromOponent ? OponentActions : PlayerActions).playMinion({
-                card: origin as number,
+                ...origin,
                 index: target as number
             }))
             return
@@ -76,7 +82,7 @@ export const executeGameAction = async (dispatch: any, action: GameAction, fromO
                 dispatch(OponentActions.drawCard())
             }
             await delay(500)
-            dispatch((opener ? PlayerActions : OponentActions).drawCard())
+            dispatch((opener ? OponentActions : PlayerActions).drawCard())
             dispatch(GameActions.initGameState(opener!))
             return
         default:

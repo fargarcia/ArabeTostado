@@ -1,14 +1,14 @@
 import { Hand as HandModel, Card as CardModel, Minion as MinionModel, MinionContainer } from "models";
 import { playableCards } from 'constants/cards';
 import styles from './styles.module.scss'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { searchGame } from "socket";
 import Coin from "./components/coin";
 
 const PreGame = () => {
     const MAX_DECK_SIZE = 10;
     const [loading, setLoading] = useState<boolean>(false)
-    const [selectedCards, setSelectedCards] = useState<number[]>([])
+    const [selectedCards, setSelectedCards] = useState<number[]>([2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
 
     const onSearchClick = () => {
         searchGame(selectedCards)
@@ -19,6 +19,10 @@ const PreGame = () => {
         searchGame()
         setLoading(false)
     }
+
+    useEffect(() => {
+        searchGame(selectedCards)
+    }, [])
 
     const onClickCard = (id: number) => selectedCards.includes(id)
         ? setSelectedCards(selectedCards.filter(cardId => cardId != id))

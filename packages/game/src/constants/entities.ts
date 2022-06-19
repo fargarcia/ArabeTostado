@@ -1,4 +1,4 @@
-export enum Entities {
+export enum ENTITY_TYPES {
     PLAYER,
     CARD,
     MINION,
