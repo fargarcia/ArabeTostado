@@ -47,7 +47,8 @@ export class Player extends Entity {
         this._battlefield.unselect()
         this._hand.unselect()
     }
-    draw = () => this._hand.addCard(this._deck.draw())
+    updateCurrentId = (): number => this._currentId += 2
+    draw = () => this._hand.addCard(this._deck.draw(this.updateCurrentId()))
     initTurn = () => {
         this.draw()
         if (this._maxMoney < 10) this._maxMoney++

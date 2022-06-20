@@ -27,4 +27,13 @@ export class Card extends Entity {
     get entity() { return this._entity }
     get name() { return this._name }
     get cost() { return this._cost }
+    get id() { return this._id }
+    set id(id: number) { 
+        this._id = id 
+        this._entity.id = id
+    }
+
+    isMinion = (): boolean => this._entity.type === ENTITY_TYPES.MINION
+    isSpell = (): boolean => this._entity.type === ENTITY_TYPES.SPELL
+    isPlayer = (): boolean => this._entity.type === ENTITY_TYPES.PLAYER
 }

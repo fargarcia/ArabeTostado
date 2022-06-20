@@ -2,11 +2,11 @@ import React, { useEffect } from "react";
 import { Game, Player as PlayerModel } from "models";
 import { connect } from "react-redux";
 import HandComponent from "./components/hand";
-import './styles.css';
 import Battlefield from "./components/battlefield";
 import Player from './components/player'
 import EndTurnButton from './components/endTurnButton'
 import { selectPlayer, selectOponent } from 'store/selectors'
+import styles from './styles.module.scss'
 
 
 interface Props {
@@ -17,13 +17,15 @@ interface Props {
 const GameBoardComponent = ({ oponent, player }: Props) => {
 
     return (
-        <div className="GameBoard">
-            <Player oponent player={oponent} />
-            <HandComponent oponent hand={oponent.hand} />
-            <Battlefield oponent minionContainer={oponent.battlefield} />
-            <Battlefield minionContainer={player.battlefield} />
-            <HandComponent hand={player.hand} />
-            <Player player={player} />
+        <div className={styles.GameBoard}>
+            {/* <HandComponent oponent hand={oponent.hand} /> */}
+            <div className={styles.container}>
+                <Player oponent player={oponent} />
+                <Battlefield oponent minionContainer={oponent.battlefield} />
+                <Battlefield minionContainer={player.battlefield} />
+                <Player player={player} />
+            </div>
+            {<HandComponent hand={player.hand} />}
             <EndTurnButton />
         </div>
     )

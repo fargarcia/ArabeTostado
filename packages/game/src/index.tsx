@@ -1,4 +1,6 @@
 import { Provider } from "react-redux";
+import { DndProvider } from "react-dnd"
+import { HTML5Backend } from "react-dnd-html5-backend"
 import ReactDOM from "react-dom/client";
 import './index.css';
 import App from './app/App';
@@ -8,6 +10,8 @@ const store = configureStore();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <Provider store={store}>
-    <App />
+    <DndProvider backend={HTML5Backend}>
+      <App />
+    </DndProvider>
   </Provider>
 );

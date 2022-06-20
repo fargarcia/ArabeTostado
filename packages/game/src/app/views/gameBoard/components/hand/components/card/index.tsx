@@ -1,9 +1,11 @@
 import React from "react"
-import { Card as CardModel, GameState, Player, Game, Entity } from "models"
+import { Card as CardModel, GameState, Player, Game, Entity, Minion } from "models"
 import styles from './styles.module.scss'
 import { selectEntity } from 'store/utils'
 import { connect } from "react-redux";
 import { selectActiveEntity, selectActivePlayer, selectPlayer } from 'store/selectors'
+import { useDrag } from "react-dnd"
+import { ENTITY_TYPES } from "constants/entities";
 
 interface Props {
     activeEntity: Entity
@@ -15,17 +17,40 @@ interface Props {
 
 const CardComponent = ({ activeEntity, activePlayer, card, dispatch, money }: Props) => {
     const canPlayCard = activePlayer && money >= card.cost
+
+    const [{ isDragging }, drag] = useDrag(() => ({
+        type: "card",
+        item: card,
+        collect: (monitor) => ({
+            isDragging: !!monitor.isDragging()
+        })
+    }))
+
+    const { attack, health } = card.entity as Minion
+
     return (
         <div
+            ref={canPlayCard ? drag : undefined}
             className={`
-            ${styles.card} 
-            ${canPlayCard && !activeEntity.id && styles.canBePlayed}
-            ${card.isSelected && styles.selected}
+            ${styles.cardContainer}
+            ${canPlayCard && styles.canPlayCard}
+            ${isDragging && styles.isDragging}
             `}
-            onClick={() => canPlayCard && selectEntity(dispatch, card.id)}
         >
-            <div>{card.name}</div>
-            <div className={styles.cost}>{card.cost}</div>
+            <div className={styles.photo}></div>
+            <div className={styles.dataContainer}>
+                <div className={styles.name}>{card.name}</div>
+                <div className={styles.text}>Fue la mano de dios</div>
+                <div className={styles.stats}>
+                    {attack && (
+                        <div className={styles.attack}>{attack}</div>
+                    )}
+                    <div className={styles.cost}>{card.cost}</div>
+                    {health && (
+                        <div className={styles.health}>{health}</div>
+                    )}
+                </div>
+            </div>
         </div>
     )
 }

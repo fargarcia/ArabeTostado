@@ -3,12 +3,14 @@ export class Entity {
     protected _id: number = 0
     protected _isSelected: boolean = false
 
-    public constructor() { }
+    constructor() { }
 
-    public get id() { return this._id }
-    public get isSelected() { return this._isSelected }
-    public get type() { return this._type }
+    get id() { return this._id }
+    get isSelected() { return this._isSelected }
+    get type() { return this._type }
 
-    public select = (select?: boolean) => this._isSelected = select || !this._isSelected
+    set id(newId: number) { this._id = newId }
+
+    select = (select?: boolean) => this._isSelected = select || !this._isSelected
 
 }

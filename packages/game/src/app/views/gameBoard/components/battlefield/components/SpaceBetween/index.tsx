@@ -6,7 +6,7 @@ import { selectActiveEntity } from 'store/selectors'
 import { ENTITY_TYPES } from "constants/entities";
 import { executeGameAction } from "gameActions/gameActions";
 import { GAME_ACTIONS } from "shared/gameActions"
-
+import { useDrop } from 'react-dnd'
 
 interface Props {
     activeEntity: Entity,
@@ -16,29 +16,32 @@ interface Props {
 }
 
 const SpaceBetween = ({ activeEntity, dispatch, index, position }: Props) => {
-    const [minionSelected, setMinionSelected] = useState<Minion>()
-
-    useEffect(() => {
-        if ((activeEntity as Card)?.entity?.type === ENTITY_TYPES.MINION)
-            setMinionSelected((activeEntity as Card).entity as Minion)
-        else setMinionSelected(undefined)
-    }, [activeEntity])
-
-    const onClick = () => minionSelected && executeGameAction(dispatch,
-        {
-            type: GAME_ACTIONS.PLAY_CARD,
-            payload: {
-                origin: {
-                    id: activeEntity.id,
-                    cost: (activeEntity as Card).cost
-                },
-                target: index
-            }
+    const [{ isOver }, drop] = useDrop(() => ({
+        accept: "card",
+        drop: (card: Card) => executeGameAction(dispatch,
+            {
+                type: GAME_ACTIONS.PLAY_CARD,
+                payload: {
+                    origin: {
+                        id: card.id,
+                        cost: card.cost
+                    },
+                    target: index
+                }
+            }),
+        collect: (monitor: any) => ({
+            isOver: !!monitor.isOver()
         })
+    }))
+
 
     return (
-        <div className={minionSelected ? styles[position] : styles.noSelected} onClick={onClick}>
-            <div className={styles.minion}>
+        <div
+            className={styles.noSelected}
+            /* onClick={onClick} */
+            ref={drop}
+        >
+            {/*     <div className={styles.minion}>
                 {minionSelected && (
                     <div>
                         <div>{minionSelected.name}</div>
@@ -48,7 +51,7 @@ const SpaceBetween = ({ activeEntity, dispatch, index, position }: Props) => {
                         </div>
                     </div >
                 )}
-            </div>
+            </div> */}
         </div>
     )
 }

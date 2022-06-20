@@ -8,8 +8,8 @@ export const ACTIONS = (player: string) => ({
     PLAYER_TAKE_DAMAGE: `${player}_TAKE_DAMAGE`,
 })
 
-export const PLAYER = 'player'
-export const OPONENT = 'oponent'
+export const PLAYER = 'PLAYER'
+export const OPONENT = 'OPONENT'
 
 export interface InitPlayerState {
     deck: number[]

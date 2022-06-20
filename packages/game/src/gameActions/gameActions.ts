@@ -61,6 +61,7 @@ export const executeGameAction = async (dispatch: Function, action: GameAction, 
             return
         case HOVER_ENTITY:
         case PLAY_CARD:
+            console.log({ origin, target })
             dispatch(GameActions.selectEntity())
             dispatch((fromOponent ? OponentActions : PlayerActions).playMinion({
                 ...origin,

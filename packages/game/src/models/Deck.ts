@@ -7,5 +7,11 @@ export class Deck extends CardContainer {
         this._cards[index] = this._cards[rand]
         this._cards[rand] = element
     });
-    public draw = (): Card | undefined => this._cards.shift()
+    public draw = (newId: number): Card | undefined => {
+        const card = this._cards.shift()
+        if (card) {
+            card.id = newId
+            return card
+        }
+    }
 }

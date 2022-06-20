@@ -1,8 +1,11 @@
 .hand {
-    align-items: center;
-    background-color: #3e8cc6;
+    align-items: end;
     display: flex;
-    height: 160px;
+    height: 300px;
     flex-direction: row;
     justify-content: center;
+    overflow: hidden;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 }

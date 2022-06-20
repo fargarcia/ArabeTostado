@@ -8,7 +8,7 @@ import { ENTITY_TYPES } from "constants/entities";
 import { selectActiveEntity, selectActivePlayer } from 'store/selectors'
 import { executeGameAction } from "gameActions/gameActions";
 import { GAME_ACTIONS } from "shared/gameActions"
-
+import { useDrag } from "react-dnd"
 
 interface Props {
     activeEntity: Entity,
@@ -22,43 +22,52 @@ const Minion = ({ activeEntity, activePlayer, dispatch, minion, oponent }: Props
     const canAttack = !oponent && activePlayer && minion.canAttack
     const canBeTargeted = oponent && activeEntity.type === ENTITY_TYPES.MINION
 
-    const haddleClick = () => {
-        if (canAttack) selectEntity(dispatch, minion.id)
-        else if (canBeTargeted)
-            executeGameAction(dispatch,
-                {
-                    type: GAME_ACTIONS.ATTACK,
-                    payload: {
-                        origin: {
-                            id: activeEntity.id,
-                            damageTaken: minion.attack,
-                            attacker: true
-                        },
-                        target: {
-                            id: minion.id,
-                            damageTaken: (activeEntity as MinionModel).attack
-                        }
-                    }
-                })
-    }
+    const [{ isDragging }, drag] = useDrag(() => ({
+        type: "card",
+        item: minion,
+        collect: (monitor) => ({
+            isDragging: !!monitor.isDragging()
+        })
+    }))
+
+    /*  const haddleClick = () => {
+         if (canAttack) selectEntity(dispatch, minion.id)
+         else if (canBeTargeted)
+             executeGameAction(dispatch,
+                 {
+                     type: GAME_ACTIONS.ATTACK,
+                     payload: {
+                         origin: {
+                             id: activeEntity.id,
+                             damageTaken: minion.attack,
+                             attacker: true
+                         },
+                         target: {
+                             id: minion.id,
+                             damageTaken: (activeEntity as MinionModel).attack
+                         }
+                     }
+                 })
+     } */
 
     return (
         <div
+            ref={canAttack ? drag : undefined}
             className={`
-                ${styles.minion} 
-                ${minion.isSelected && styles.selected} 
-                ${oponent && styles.enemyMinion}
-                ${canAttack && !activeEntity.id && styles.canAttack}
-                ${canBeTargeted && styles.canBeTargeted}
+            ${styles.minionContainer}
+            ${canAttack && styles.canPlayCard}
+            ${isDragging && styles.isDragging}
             `}
-            onClick={haddleClick}
         >
-            <div>{minion.name}</div>
-            <div className={styles.stats}>
-                <div>{minion.attack}</div>
-                <div>{minion.health}</div>
+            <div className={styles.photo}></div>
+            <div className={styles.dataContainer}>
+                <div className={styles.name}>{minion.name}</div>
+                <div className={styles.stats}>
+                    <div className={styles.attack}>{minion.attack}</div>
+                    <div className={styles.health}>{minion.health}</div>
+                </div>
             </div>
-        </div >
+        </div>
     )
 }
 
