@@ -50,7 +50,6 @@ const takeDamageAction = (player: any, { payload }: PayloadAction<TakeDamageActi
 
 const playMinionAction = (player: any, { payload }: PayloadAction<PlayMinion>) => {
     const newPlayer = new Player({ player })
-    console.log({ payload })
     newPlayer.substractMoney(payload.cost)
     newPlayer.battlefield.addOnPostion(
         newPlayer.hand.playById(payload.id).entity as Minion,

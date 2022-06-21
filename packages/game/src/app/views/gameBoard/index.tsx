@@ -21,8 +21,8 @@ const GameBoardComponent = ({ oponent, player }: Props) => {
             {/* <HandComponent oponent hand={oponent.hand} /> */}
             <div className={styles.container}>
                 <Player oponent player={oponent} />
-                <Battlefield oponent minionContainer={oponent.battlefield} />
-                <Battlefield minionContainer={player.battlefield} />
+                <Battlefield isOponent />
+                <Battlefield />
                 <Player player={player} />
             </div>
             {<HandComponent hand={player.hand} />}

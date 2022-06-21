@@ -24,4 +24,5 @@ export class MinionContainer {
     public enableAttack = (id?: number) => id
         ? this._minions.find(minion => minion.id === id)?.enableAttack()
         : this._minions.forEach(minion => minion.enableAttack())
+    public minionsCount = (): number => this._minions.length
 }

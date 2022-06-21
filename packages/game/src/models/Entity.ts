@@ -1,5 +1,5 @@
 export class Entity {
-    protected _type: number = 0
+    protected _type: string = ''
     protected _id: number = 0
     protected _isSelected: boolean = false
 

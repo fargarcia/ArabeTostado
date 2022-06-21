@@ -1,6 +1,6 @@
-export enum ENTITY_TYPES {
-    PLAYER,
-    CARD,
-    MINION,
-    SPELL
+export const ENTITY_TYPES = {
+    PLAYER: 'player',
+    CARD: 'card',
+    MINION: 'number',
+    SPELL: 'spell'
 }

@@ -1,59 +1,11 @@
-%player {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    height: 120px;
-    width: 120px;
-    border-radius: 15px;
-    box-shadow: 1px 2px 10px 0px rgba(0, 0, 0, 0.3);
-    background: linear-gradient(45deg, rgba(200, 0, 0, 1) 0%, rgba(240, 0, 0, 1) 99%);
-    position: relative;
-}
-
-.you {
-    @extend %player;
-}
-
-.oponent {
-    @extend %player;
-}
-
-.canBeTargeted {
-    border: solid;
-    border-color: gold;
-
-    &:hover {
-        border-color: black;
-    }
-}
-
-.stats {
-    display: flex;
-    justify-content: space-between;
-    padding: 8px;
-    width: 104px;
-    position: absolute;
-    bottom: 0;
-}
-
-.selected {
-    background: rgba(0, 0, 200, 1);
-    /* Old browsers */
-    background: -moz-linear-gradient(45deg, rgba(0, 0, 200, 1) 0%, rgba(0, 0, 240, 1) 99%);
-    /* FF3.6-15 */
-    background: -webkit-linear-gradient(45deg, rgba(0, 0, 200, 1) 0%, rgba(0, 0, 240, 1) 99%);
-    /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(45deg, rgba(0, 0, 200, 1) 0%, rgba(0, 0, 240, 1) 99%);
-
-    &:hover {
-        border: none;
-    }
-}
-
-.container {
-    align-items: center;
-    display: flex;
-    justify-content: center;
-    background-color: beige;
-    height: 160px;
+.player {
+	background: #232323;
+	color: white;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	height: 120px;
+	width: 120px;
+	box-shadow: 1px 2px 10px 0px rgba(0, 0, 0, 0.3);
+	border-radius: 10px;
 }

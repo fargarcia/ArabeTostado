@@ -1,54 +1,32 @@
-import React, { useEffect } from "react"
 import { Game, Minion as MinionModel } from "models"
 import { connect } from "react-redux";
-import { selectEntity } from 'store/utils'
 import styles from './styles.module.scss'
-import { Entity } from "models/Entity";
 import { ENTITY_TYPES } from "constants/entities";
-import { selectActiveEntity, selectActivePlayer } from 'store/selectors'
-import { executeGameAction } from "gameActions/gameActions";
-import { GAME_ACTIONS } from "shared/gameActions"
+import { selectActivePlayer } from 'store/selectors'
 import { useDrag } from "react-dnd"
+import { useEffect } from "react";
+import { useMutableState } from "utils/hooks"
 
 interface Props {
-    activeEntity: Entity,
     activePlayer: boolean,
-    minion: MinionModel,
-    dispatch: Function,
-    oponent?: boolean
+    minion?: MinionModel,
 }
 
-const Minion = ({ activeEntity, activePlayer, dispatch, minion, oponent }: Props) => {
-    const canAttack = !oponent && activePlayer && minion.canAttack
-    const canBeTargeted = oponent && activeEntity.type === ENTITY_TYPES.MINION
+const Minion = ({ activePlayer, minion }: Props) => {
+    const [minionRef, setMinion] = useMutableState()
 
+    useEffect(() => {
+        if (minion) setMinion(minion)
+    }, [minion])
+
+    const canAttack = activePlayer && minionRef.current?.canAttack
     const [{ isDragging }, drag] = useDrag(() => ({
-        type: "card",
-        item: minion,
+        type: ENTITY_TYPES.MINION,
+        item: minionRef,
         collect: (monitor) => ({
             isDragging: !!monitor.isDragging()
         })
     }))
-
-    /*  const haddleClick = () => {
-         if (canAttack) selectEntity(dispatch, minion.id)
-         else if (canBeTargeted)
-             executeGameAction(dispatch,
-                 {
-                     type: GAME_ACTIONS.ATTACK,
-                     payload: {
-                         origin: {
-                             id: activeEntity.id,
-                             damageTaken: minion.attack,
-                             attacker: true
-                         },
-                         target: {
-                             id: minion.id,
-                             damageTaken: (activeEntity as MinionModel).attack
-                         }
-                     }
-                 })
-     } */
 
     return (
         <div
@@ -61,18 +39,17 @@ const Minion = ({ activeEntity, activePlayer, dispatch, minion, oponent }: Props
         >
             <div className={styles.photo}></div>
             <div className={styles.dataContainer}>
-                <div className={styles.name}>{minion.name}</div>
+                <div className={styles.name}>{minionRef.current?.name}</div>
                 <div className={styles.stats}>
-                    <div className={styles.attack}>{minion.attack}</div>
-                    <div className={styles.health}>{minion.health}</div>
+                    <div className={styles.attack}>{minionRef.current?.attack}</div>
+                    <div className={styles.health}>{minionRef.current?.health}</div>
                 </div>
             </div>
         </div>
     )
 }
 
-const mapStateToProps = (store: Game): { activeEntity: Entity, activePlayer: boolean } => ({
-    activeEntity: selectActiveEntity(store),
+const mapStateToProps = (store: Game): { activePlayer: boolean } => ({
     activePlayer: selectActivePlayer(store)
 })
 
