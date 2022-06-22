@@ -43,6 +43,10 @@ const SpaceBetween = ({ dispatch, index, position }: Props) => {
         })
     }))
 
+    useEffect(() => {
+        if (isOver) console.log('isOver')
+    }, [isOver])
+
     return (
         <div
             className={`

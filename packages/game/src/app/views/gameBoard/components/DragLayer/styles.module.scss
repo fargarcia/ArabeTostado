@@ -1,0 +1,14 @@
+.layer {
+  position: absolute;
+  pointer-events: none;
+  z-index: 100;
+  left: 0;
+  top: 0;
+}
+
+.box {
+  height: 50px;
+  width: 50px;
+  background: black;
+  z-index: 500;
+}

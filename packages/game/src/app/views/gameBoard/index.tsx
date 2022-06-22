@@ -7,7 +7,7 @@ import Player from './components/player'
 import EndTurnButton from './components/endTurnButton'
 import { selectPlayer, selectOponent } from 'store/selectors'
 import styles from './styles.module.scss'
-
+import DragLayer from './components/DragLayer'
 
 interface Props {
     oponent: PlayerModel
@@ -18,8 +18,9 @@ const GameBoardComponent = ({ oponent, player }: Props) => {
 
     return (
         <div className={styles.GameBoard}>
+            <DragLayer />
             {/* <HandComponent oponent hand={oponent.hand} /> */}
-            <div className={styles.container}>
+            <div className={styles.playersAndBattlefields}>
                 <Player oponent player={oponent} />
                 <Battlefield isOponent />
                 <Battlefield />

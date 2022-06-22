@@ -1,18 +1,19 @@
 import { Game, Minion as MinionModel } from "models"
 import { connect } from "react-redux";
-import styles from './styles.module.scss'
 import { ENTITY_TYPES } from "constants/entities";
 import { selectActivePlayer } from 'store/selectors'
 import { useDrag } from "react-dnd"
-import { useEffect } from "react";
+import { useEffect } from "react"
 import { useMutableState } from "utils/hooks"
+import { getEmptyImage } from 'react-dnd-html5-backend'
+import MinionLayout from './layout'
 
 interface Props {
     activePlayer: boolean,
     minion?: MinionModel,
 }
 
-const Minion = ({ activePlayer, minion }: Props) => {
+const MinionContainer = ({ activePlayer, minion }: Props) => {
     const [minionRef, setMinion] = useMutableState()
 
     useEffect(() => {
@@ -20,7 +21,7 @@ const Minion = ({ activePlayer, minion }: Props) => {
     }, [minion])
 
     const canAttack = activePlayer && minionRef.current?.canAttack
-    const [{ isDragging }, drag] = useDrag(() => ({
+    const [{ isDragging }, drag, preview] = useDrag(() => ({
         type: ENTITY_TYPES.MINION,
         item: minionRef,
         collect: (monitor) => ({
@@ -28,23 +29,17 @@ const Minion = ({ activePlayer, minion }: Props) => {
         })
     }))
 
+    useEffect(() => {
+        preview(getEmptyImage())
+    }, [])
+
     return (
-        <div
-            ref={canAttack ? drag : undefined}
-            className={`
-            ${styles.minionContainer}
-            ${canAttack && styles.canPlayCard}
-            ${isDragging && styles.isDragging}
-            `}
-        >
-            <div className={styles.photo}></div>
-            <div className={styles.dataContainer}>
-                <div className={styles.name}>{minionRef.current?.name}</div>
-                <div className={styles.stats}>
-                    <div className={styles.attack}>{minionRef.current?.attack}</div>
-                    <div className={styles.health}>{minionRef.current?.health}</div>
-                </div>
-            </div>
+        <div ref={canAttack ? drag : undefined}>
+            <MinionLayout
+                minionRef={minionRef}
+                canAttack={canAttack}
+                isDragging={isDragging}
+            />
         </div>
     )
 }
@@ -53,4 +48,4 @@ const mapStateToProps = (store: Game): { activePlayer: boolean } => ({
     activePlayer: selectActivePlayer(store)
 })
 
-export default connect(mapStateToProps)(Minion);
+export default connect(mapStateToProps)(MinionContainer);
