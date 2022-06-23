@@ -1,3 +1,3 @@
-export * from 'utils'
-export * from './player/playerReducer'
-export * from './game/gameReducer'
+export * from 'utils';
+export * from './player/playerReducer';
+export * from './game/gameReducer';

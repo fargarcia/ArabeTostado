@@ -1,23 +1,18 @@
-.cardContainer {
-  
-  width: 200px;
-  height: 280px;
+.cardContainer {  
   background: #232323;
   border-radius: 20px;
-  overflow: hidden;
+  box-shadow: rgba(0, 0, 0, 1) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
   display: flex;
   flex-direction: column;
-  margin-bottom: -100px;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
-
-  &:hover {
-    margin: 0 !important;
-  }
+  height: 240px;
+  justify-content: space-between;
+  overflow: hidden;
+  width: 172px;
 }
 
 .name {
   color: white;
-  padding: 15px;
+  padding: 30px 15px 0;
 }
 
 .photo {
@@ -27,8 +22,8 @@
 }
 
 .dataContainer {
-  display: flex;
   align-items: center;
+  display: flex;
   flex-direction: column;
   justify-content: center;
 }
@@ -47,26 +42,25 @@
 }
 
 .isDragging {
-  display: none;
   opacity: 0;
 }
 
 .stats {
   display: flex;
   flex-direction: row;
-  height: 30px;
+  height: fit-content;
+  justify-content: space-between;
   width: 100%;
 }
 
 %stat {
   align-items: center;
-  display: flex;
-  flex-grow: 1;
-  justify-content: center;
-  font-size: 25px;
   border-radius: 5px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-  margin: 3px
+  display: flex;
+  font-size: 25px;
+  height: 50px;
+  justify-content: center;
+  width: 50px;
 }
 
 .attack {
@@ -82,4 +76,8 @@
 .health {
   @extend %stat;
   background: #e91e63;
+}
+
+.topZ{
+  z-index: 100000;
 }

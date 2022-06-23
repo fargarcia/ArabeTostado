@@ -1,4 +1,4 @@
 export const POSTION = {
-    BORDER: 'border',
-    CENTER: 'center'
-}
+  BORDER: 'border',
+  CENTER: 'center',
+};

@@ -1,29 +1,26 @@
-import { Player } from "./index"
+import { Player } from './index';
 
 export type Game = {
-    gameState: GameState,
-    player: Player,
-    oponent: Player
-}
+  gameState: GameState;
+  player: Player;
+  oponent: Player;
+};
 
 interface Props {
-    activeEntity?: number
-    activePlayer?: boolean
-    gameState?: GameState
+  activePlayer?: boolean;
+  gameState?: GameState;
 }
 
 export class GameState {
-    public _activePlayer: boolean
-    public _activeEntity: number
+  public _activePlayer: boolean;
 
-    public constructor(props: Props) {
-        this._activePlayer = props.gameState?.activePlayer || props.activePlayer!
-        this._activeEntity = props.gameState?.activeEntity || 0
-    }
+  public constructor(props: Props) {
+    this._activePlayer = props.gameState?.activePlayer || props.activePlayer || false;
+  }
 
-    get activePlayer() { return this._activePlayer }
-    get activeEntity() { return this._activeEntity }
+  get activePlayer() {
+    return this._activePlayer;
+  }
 
-    public setActiveEntity = (activeEntity: number) => this._activeEntity = activeEntity
-    public switchActivePlayer = () => this._activePlayer = !this._activePlayer
+  public switchActivePlayer = () => (this._activePlayer = !this._activePlayer);
 }

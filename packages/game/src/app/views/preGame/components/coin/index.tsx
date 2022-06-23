@@ -1,4 +1,4 @@
-import styles from './styles.module.scss'
+import styles from './styles.module.scss';
 
 const Coin = () => (
   <div className={styles.coin}>
@@ -14,6 +14,6 @@ const Coin = () => (
     </div>
     <div className={styles.shadow}></div>
   </div>
-)
+);
 
-export default Coin
+export default Coin;

@@ -1,16 +1,28 @@
 export class Entity {
-    protected _type: string = ''
-    protected _id: number = 0
-    protected _isSelected: boolean = false
+  protected _type: string;
+  protected _id: number;
+  protected _isSelected: boolean;
 
-    constructor() { }
+  constructor() {
+    this._type = '';
+    this._id = 0;
+    this._isSelected = false;
+  }
 
-    get id() { return this._id }
-    get isSelected() { return this._isSelected }
-    get type() { return this._type }
+  get id() {
+    return this._id;
+  }
+  set id(newId: number) {
+    this._id = newId;
+  }
 
-    set id(newId: number) { this._id = newId }
+  get isSelected() {
+    return this._isSelected;
+  }
 
-    select = (select?: boolean) => this._isSelected = select || !this._isSelected
+  get type() {
+    return this._type;
+  }
 
+  select = (select?: boolean) => (this._isSelected = select || !this._isSelected);
 }

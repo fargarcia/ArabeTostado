@@ -1,22 +1,30 @@
-import { Hand as HandModel, Card as CardModel } from "models";
-import React from "react";
-import CardComponent from "./components/card";
-import OponentCard from "./components/oponentCard";
-import styles from './styles.module.scss'
+import { Hand as HandModel, Card as CardModel } from 'models';
+import CardComponent from './components/card';
+import OponentCard from './components/oponentCard';
+import styles from './styles.module.scss';
+import { getRelativePosition } from './utils';
 
 interface Props {
-    hand: HandModel,
-    oponent?: boolean
+  hand: HandModel;
+  oponent?: boolean;
 }
 
 const HandComponent = ({ hand, oponent }: Props) => {
-    const renderCard = (card: CardModel) => oponent ? <OponentCard key={card.id} card={card} /> : <CardComponent key={card.id} card={card} />
+  const { cards } = hand;
+  const { length } = cards;
 
-    return (
-        <div className={styles.hand}>
-            {hand.cards.map(renderCard)}
-        </div>
-    )
-}
+  const renderCard = (card: CardModel, relativePosition: number) =>
+    oponent ? (
+      <OponentCard key={card.id} card={card} />
+    ) : (
+      <CardComponent key={card.id} card={card} relativePosition={relativePosition} />
+    );
 
-export default HandComponent
+  return (
+    <div className={styles.hand}>
+      {cards.map((card, index) => renderCard(card, getRelativePosition(index, length)))}
+    </div>
+  );
+};
+
+export default HandComponent;

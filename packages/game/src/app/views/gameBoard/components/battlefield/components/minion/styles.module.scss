@@ -1,30 +1,20 @@
 .minionContainer {
-    width: 150px;
-    height: 150px;
     background: #232323;
     border-radius: 20px;
-    overflow: hidden;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     display: flex;
     flex-direction: column;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    height: 120px;
+    overflow: visible;
+    width: 120px;
 }
 
 .name {
-    color: white;
-    padding: 15px;
-}
-
-.photo {
-    background: wheat;
-    height: 45%;
-    width: 100%;
-}
-
-.dataContainer {
-    display: flex;
     align-items: center;
-    flex-direction: column;
+    color: white;
     justify-content: center;
+    padding: 23px 10px 0;
+    flex-grow: 1;
 }
 
 .text {
@@ -37,25 +27,28 @@
 }
 
 .isDragging {
-    display: none;
+    opacity: 0;
 }
 
 .stats {
+    bottom: -10px;
     display: flex;
-    flex-direction: row;
-    height: 30px;
-    width: 100%;
+    justify-content: space-between;
+    left: -10px;
+    position: relative;
+    width: 140px;
 }
 
 %stat {
     align-items: center;
     display: flex;
-    flex-grow: 1;
+    height: 50px;
+    width: 50px;
     justify-content: center;
     font-size: 25px;
     border-radius: 5px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-    margin: 3px
+    margin: 3px;
 }
 
 .attack {

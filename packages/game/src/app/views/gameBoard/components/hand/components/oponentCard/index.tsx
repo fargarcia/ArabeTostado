@@ -1,17 +1,16 @@
-import React from "react"
-import { Card as CardModel } from "models"
-import styles from './styles.module.scss'
+import { Card as CardModel } from 'models';
+import styles from './styles.module.scss';
 
 interface Props {
-    card: CardModel
+  card: CardModel;
 }
 
 const OponentCard = ({ card }: Props) => {
-    return (
-        <div className={styles.card} key={card.id}>
-            <div>?</div>
-        </div>
-    )
-}
+  return (
+    <div className={styles.card} key={card.id}>
+      <div>?</div>
+    </div>
+  );
+};
 
-export default OponentCard
+export default OponentCard;

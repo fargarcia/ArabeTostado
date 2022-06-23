@@ -1,20 +1,7 @@
-import { PlayerActions, OponentActions } from "./player/playerReducer"
-import { GameActions } from "./game/gameReducer"
-import { Minion } from "models"
-
-interface InitPlayerData {
-    id: string
-    deck: number[]
-}
-
-interface InitGameData {
-    opener: number
-    player: InitPlayerData
-    oponent: InitPlayerData
-}
-
+import { PlayerActions } from './player/playerReducer';
+import { GameActions } from './game/gameReducer';
 
 export const selectEntity = (dispatch: Function, id: number) => {
-    dispatch(PlayerActions.selectEntity(id))
-    dispatch(GameActions.selectEntity(id))
-}
+  dispatch(PlayerActions.selectEntity(id));
+  dispatch(GameActions.selectEntity(id));
+};
