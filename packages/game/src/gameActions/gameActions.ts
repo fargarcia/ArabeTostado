@@ -58,17 +58,17 @@ export const executeGameAction = async (dispatch: Function, action: GameAction, 
     case SELECT_TARGET:
     case INIT_GAME:
       if (player && oponent) {
+        dispatch(GameActions.initGameState(!!opener));
         dispatch(PlayerActions.initPlayerState({ deck: player.deck, opener, isPlayer: true }));
         dispatch(OponentActions.initPlayerState({ deck: oponent.deck, opener: !opener }));
-      }
-      for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < 3; i++) {
+          await delay(500);
+          dispatch(PlayerActions.drawCard());
+          dispatch(OponentActions.drawCard());
+        }
         await delay(500);
-        dispatch(PlayerActions.drawCard());
-        dispatch(OponentActions.drawCard());
+        dispatch((opener ? OponentActions : PlayerActions).drawCard());
       }
-      await delay(500);
-      dispatch((opener ? OponentActions : PlayerActions).drawCard());
-      opener && dispatch(GameActions.initGameState(opener));
       return;
     default:
   }

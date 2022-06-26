@@ -56,7 +56,7 @@ const CardContainer = ({ activePlayer, card, money, relativePosition }: Props) =
         : {
             rotateZ: relativePosition * 10,
             scale: 1,
-            x: -(relativePosition * 40),
+            x: -(relativePosition * 20),
             y: DEFAULT_DEPTH + Math.abs(relativePosition ** 4),
           }
     );

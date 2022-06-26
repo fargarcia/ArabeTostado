@@ -1,8 +1,9 @@
-import { Game } from 'models';
 import { connect } from 'react-redux';
+import { Game } from 'models';
+import { GameActions } from 'store';
+import { PLAYER } from 'constants/players';
 import { winnerSelector } from 'store/selectors';
 import styles from './styles.module.scss';
-import { PLAYER } from 'constants/players';
 
 interface Props {
   winner: string | undefined;
@@ -10,6 +11,8 @@ interface Props {
 }
 
 const EndGameScreen = ({ dispatch, winner }: Props) => {
+  const goToLobby = () => dispatch(GameActions.resetState());
+
   return winner ? (
     <div className={styles.container}>
       {winner === PLAYER ? (
@@ -21,6 +24,9 @@ const EndGameScreen = ({ dispatch, winner }: Props) => {
           <div className={styles.vicroryLabel}>Derrota</div>
         </div>
       )}
+      <div onClick={goToLobby} className={styles.goToLobby}>
+        Volver al lobby
+      </div>
     </div>
   ) : null;
 };

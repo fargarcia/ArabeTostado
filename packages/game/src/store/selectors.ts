@@ -12,6 +12,10 @@ export const selectActivePlayer = createSelector(
   (gameState: GameState) => gameState.activePlayer
 );
 
-export const winnerSelector = createSelector(selectPlayer, selectOponent, (player: Player, oponent: Player) =>
-  player.isDead() ? OPONENT : oponent.isDead() ? PLAYER : undefined
+export const winnerSelector = createSelector(
+  selectGameState,
+  selectPlayer,
+  selectOponent,
+  (gameState: GameState, player: Player, oponent: Player) =>
+    gameState.oponentDisconnected || oponent.isDead() ? PLAYER : player.isDead() ? OPONENT : undefined
 );

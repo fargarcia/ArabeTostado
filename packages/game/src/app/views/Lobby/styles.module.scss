@@ -1,0 +1,71 @@
+.container {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    background:
+        linear-gradient(27deg, #151515 5px, transparent 5px) 0 5px,
+        linear-gradient(207deg, #151515 5px, transparent 5px) 10px 0px,
+        linear-gradient(27deg, #222 5px, transparent 5px) 0px 10px,
+        linear-gradient(207deg, #222 5px, transparent 5px) 10px 5px,
+        linear-gradient(90deg, #1b1b1b 10px, transparent 10px),
+        linear-gradient(#1d1d1d 25%, #1a1a1a 25%, #1a1a1a 50%, transparent 50%, transparent 75%, #242424 75%, #242424);
+    background-color: #131313;
+    background-size: 20px 20px;
+    height: 100vh;
+    width: 100vw;
+}
+
+.cardContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    overflow: auto;
+    padding-top: 20px;
+    width: 100%;
+}
+
+%goldContainer {
+    background-color: #ffd700;
+    border-radius: 15px;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;display: flex;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 20px;
+}
+
+.cardCount{
+    @extend %goldContainer;
+}
+
+.searchButton {
+    @extend %goldContainer;
+}
+
+.disabled {
+    background-color: #353535 !important;
+}
+
+.loadingScreen {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: center;
+}
+
+.loadingLabel {
+    margin: 150px;
+}
+
+.topbar{
+    align-content: center;
+    background-color: #131313;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;display: flex;
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    padding: 20px;
+    width: 100%;
+}

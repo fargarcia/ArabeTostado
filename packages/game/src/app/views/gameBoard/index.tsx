@@ -8,6 +8,7 @@ import EndTurnButton from './components/endTurnButton';
 import HandComponent from './components/hand';
 import Player from './components/player';
 import styles from './styles.module.scss';
+import CoinContainer from './components/CoinContainer';
 
 interface Props {
   oponent: PlayerModel;
@@ -26,7 +27,8 @@ const GameBoardComponent = ({ oponent, player }: Props) => {
         <Battlefield />
         <Player player={player} />
       </div>
-      {<HandComponent hand={player.hand} />}
+      <HandComponent hand={player.hand} />
+      <CoinContainer />
       <EndTurnButton />
     </div>
   );

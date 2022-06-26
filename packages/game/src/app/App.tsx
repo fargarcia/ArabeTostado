@@ -1,27 +1,27 @@
-import React, { useEffect } from 'react';
 import './App.css';
-import GameBoard from './views/gameBoard';
 import { connect } from 'react-redux';
-import PreGame from './views/preGame';
+import { Game, GameState } from 'models';
 import { initializeSockets } from 'socket';
-import { Game, Player } from 'models';
 import { isEmpty } from 'utils';
+import { selectGameState } from 'store/selectors';
+import { useEffect } from 'react';
+import GameBoard from './views/gameBoard';
+import Lobby from './views/Lobby';
 
 interface Props {
   dispatch: Function;
-  player: Player;
+  gameState: GameState;
 }
 
-const App = ({ dispatch, player }: Props) => {
+const App = ({ dispatch, gameState }: Props) => {
   useEffect(() => {
     initializeSockets(dispatch);
   }, []);
-
-  return <div className="App">{isEmpty(player) ? <PreGame /> : <GameBoard />}</div>;
+  return <div className="App">{isEmpty(gameState) ? <Lobby /> : <GameBoard />}</div>;
 };
 
-const mapStateToProps = (gameState: Game): { player: Player } => ({
-  player: gameState.player,
+const mapStateToProps = (store: Game): { gameState: GameState } => ({
+  gameState: selectGameState(store),
 });
 
 export default connect(mapStateToProps)(App);
