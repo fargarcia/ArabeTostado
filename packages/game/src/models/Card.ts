@@ -10,28 +10,22 @@ interface Props {
 
 export class Card extends Entity {
   private _entity: Entity;
-  private _name: string;
-  private _cost: number;
 
   public constructor(props: Props) {
     super();
     const _entity = new Minion({ minion: (props.card ? props.card.entity : props.entity) as Minion });
     this._entity = _entity;
-    this._id = _entity.id;
     this._isSelected = props.isSelected || false;
-    this._name = _entity.name;
-    this._cost = _entity.cost;
-    this._type = ENTITY_TYPES.CARD;
   }
 
   get entity() {
     return this._entity;
   }
   get name() {
-    return this._name;
+    return this._entity.name;
   }
   get cost() {
-    return this._cost;
+    return this._entity.cost;
   }
   get id() {
     return this._id;
@@ -39,6 +33,9 @@ export class Card extends Entity {
   set id(id: number) {
     this._id = id;
     this._entity.id = id;
+  }
+  get label() {
+    return this._entity.label;
   }
 
   isMinion = (): boolean => this._entity.type === ENTITY_TYPES.MINION;

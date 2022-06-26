@@ -8,6 +8,7 @@ export interface Props {
   health?: number;
   cost?: number;
   minion?: Minion;
+  label?: string;
 }
 
 export class Minion extends Entity {
@@ -16,10 +17,11 @@ export class Minion extends Entity {
   private _cost: number;
   private _health: number;
   private _name: string;
+  private _label: string;
 
   constructor(props: Props) {
     super();
-    const { attack, id, name, health, cost, minion } = props;
+    const { attack, id, name, health, cost, minion, label } = props;
     this._id = minion?.id || id || 0;
     this._name = minion?.name || name || '';
     this._attack = minion?.attack || attack || 0;
@@ -28,6 +30,7 @@ export class Minion extends Entity {
     this._canAttack = minion?.canAttack || false;
     this._isSelected = minion?.isSelected || false;
     this._type = ENTITY_TYPES.MINION;
+    this._label = minion?._label || label || '';
   }
 
   get attack() {
@@ -44,6 +47,9 @@ export class Minion extends Entity {
   }
   get name() {
     return this._name;
+  }
+  get label() {
+    return this._label;
   }
 
   takeDamage = (damage: number, attacker: boolean) => {
