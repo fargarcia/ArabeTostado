@@ -28,7 +28,7 @@ export class Card extends Entity {
     return this._entity.cost;
   }
   get id() {
-    return this._id;
+    return this._entity.id;
   }
   set id(id: number) {
     this._id = id;

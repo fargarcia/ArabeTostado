@@ -13,7 +13,7 @@ export default [
     attack: 1,
     health: 3,
     cost: 1,
-    label: 'Si no hay amor que no haya nada entonces, alma mía, ¡No vas a regatear!',
+    label: 'Vivir solo cuesta vida',
   },
   {
     id: 4,
@@ -133,7 +133,7 @@ export default [
     attack: 1,
     health: 3,
     cost: 1,
-    label: 'Rezar el padrenuestro al revés, dejarle cigarrillos y caña en el tatakua, llamarlo por la noche y pedirle que sea tu amigo',
+    label: 'Que no te agarre de noche',
   },
   {
     id: 19,

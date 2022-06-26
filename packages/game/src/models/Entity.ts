@@ -35,7 +35,6 @@ export class Entity {
   get label() {
     return '';
   }
-  
 
   select = (select?: boolean) => (this._isSelected = select || !this._isSelected);
 }
