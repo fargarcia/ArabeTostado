@@ -24,4 +24,5 @@ export const samples = {
   sampleCards5: playableMinionsCards.slice(chunc * 5, chunc * 6),
 };
 
-export const getDeck = (ids: number[]) => playableCards.filter((card) => ids.includes(card.id));
+export const getDeck = (ids: number[]): Card[] =>
+  ids.map((id) => playableCards.find((card) => card.id === id)!);

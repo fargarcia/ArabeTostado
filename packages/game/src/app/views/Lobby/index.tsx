@@ -6,6 +6,7 @@ import { useTransition, animated } from 'react-spring';
 import Coin from './components/coin';
 import styles from './styles.module.scss';
 import CardLayer from '../gameBoard/components/hand/components/card/layer';
+import { shuffle } from 'utils';
 
 const Lobby = () => {
   const MAX_DECK_SIZE = 10;
@@ -14,7 +15,9 @@ const Lobby = () => {
 
   const onSearchClick = () => {
     if (selectedCards.length === 10) {
-      searchGame(selectedCards);
+      const shuffled = shuffle(selectedCards);
+      console.log(shuffled);
+      searchGame(shuffled);
       setLoading(true);
     }
   };
@@ -48,15 +51,18 @@ const Lobby = () => {
   return !loading ? (
     <div className={styles.container}>
       <div className={styles.topbar}>
-        <div className={styles.cardCount}>
-          <div>Elija las cartas para su maso</div>
-          <div>{`${selectedCards.length} / ${MAX_DECK_SIZE}`}</div>
-        </div>
         <div
           onClick={onSearchClick}
-          className={`${styles.searchButton} ${selectedCards.length !== 10 && styles.disabled}`}
+          className={`${styles.searchButton} ${selectedCards.length === 10 && styles.searchButtonEnabled}`}
         >
-          Buscar partida
+          {selectedCards.length === 10 ? (
+            'Buscar Partida'
+          ) : (
+            <div>
+              <div>Elija las cartas para su maso</div>
+              <div>{`${selectedCards.length} / ${MAX_DECK_SIZE}`}</div>
+            </div>
+          )}
         </div>
       </div>
       <div className={styles.cardContainer}>{transitions((style, item) => cardRederer(item, style))}</div>

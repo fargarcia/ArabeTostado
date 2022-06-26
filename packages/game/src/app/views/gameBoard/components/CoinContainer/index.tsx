@@ -16,7 +16,7 @@ const CoinContainer = ({ currentMoney }: Props) => {
     from: { y: -2000 },
     enter: { y: 0 },
     leave: { y: -2000 },
-    delay: 200,
+    delay: 100,
   });
 
   return (

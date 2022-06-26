@@ -25,26 +25,24 @@
     width: 100%;
 }
 
-%goldContainer {
-    background-color: #ffd700;
+.searchButton {
+    background-color: #353535;
     border-radius: 15px;
+    border: 2px solid gold;
     box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;display: flex;
+    color: white;
     display: flex;
     flex-direction: column;
     justify-content: center;
     padding: 20px;
+    height: 35px;
+    width: 200px;
 }
 
-.cardCount{
-    @extend %goldContainer;
-}
-
-.searchButton {
-    @extend %goldContainer;
-}
-
-.disabled {
-    background-color: #353535 !important;
+.searchButtonEnabled {
+    //border: none;
+    background-color: gold !important;
+    color: black;
 }
 
 .loadingScreen {
