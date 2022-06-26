@@ -24,5 +24,18 @@ export class Entity {
     return this._type;
   }
 
+  get name() {
+    return '';
+  }
+
+  get cost() {
+    return 0;
+  }
+
+  get label() {
+    return '';
+  }
+  
+
   select = (select?: boolean) => (this._isSelected = select || !this._isSelected);
 }

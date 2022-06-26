@@ -19,7 +19,7 @@ const CardLayer = ({ card, canPlayCard, isDragging }: Props) => {
             `}
     >
       <div className={styles.name}>{card.name}</div>
-      <div className={styles.text}>Insertar habilidades y/o frase</div>
+      <div className={styles.text}>{card.label}</div>
       <div className={styles.stats}>
         {attack && <div className={styles.attack}>{attack}</div>}
         <div className={styles.cost}>{card.cost}</div>
