@@ -20,7 +20,7 @@ const GameBoardComponent = ({ oponent, player }: Props) => {
     <div className={styles.GameBoard}>
       <EndGameScreen />
       <DragLayer />
-      {/* <HandComponent oponent hand={oponent.hand} /> */}
+      <HandComponent oponent hand={oponent.hand} />
       <div className={styles.playersAndBattlefields}>
         <Player oponent player={oponent} />
         <Battlefield isOponent />

@@ -15,13 +15,13 @@ const HandComponent = ({ hand, oponent }: Props) => {
 
   const renderCard = (card: CardModel, relativePosition: number) =>
     oponent ? (
-      <OponentCard key={card.id} card={card} />
+      <OponentCard key={card.id} relativePosition={relativePosition} />
     ) : (
       <CardComponent key={card.id} card={card} relativePosition={relativePosition} />
     );
 
   return (
-    <div className={styles.hand}>
+    <div className={oponent ? styles.oponentHand : styles.hand}>
       {cards.map((card, index) => renderCard(card, getRelativePosition(index, length)))}
     </div>
   );
