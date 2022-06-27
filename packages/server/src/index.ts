@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import { Server } from 'socket.io';
 import http from 'http';
-import { GameRooms } from './GameRooms';
+import { GameRooms } from './models/GameRooms';
 
 const app = express();
 app.use(cors());
@@ -92,5 +92,11 @@ io.on(CONNECT, (socket: any) => {
 
   socket.on(GAME_ACTION, (action: any) => {
     socket.to(gameRooms.findOponent(id)).emit(GAME_ACTION, action);
+  });
+
+  socket.on("disconnect", () => {
+    socket.to(gameRooms.findOponent(id)).emit(OPONENT_DISCONNECTED);
+    socket.to(gameRooms.findOponent(id)).emit(SEND_MESSAGE, 'Tu oponente se ha desconectado');
+    gameRooms.deleteGameRoom(id);
   });
 });
