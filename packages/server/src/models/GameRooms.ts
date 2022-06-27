@@ -16,6 +16,4 @@ export class GameRooms {
   };
   deleteGameRoom = (player: string) =>
     (this.gameRooms = this.gameRooms.filter((gameRoom) => !gameRoom.has(player)));
-  hasDisconected = (player: string): boolean => !!this.findGameRoom(player)?.reduceTtl(player);
-  resetTtl = (player: string) => this.findGameRoom(player)?.resetTtl(player);
 }

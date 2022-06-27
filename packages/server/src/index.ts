@@ -39,23 +39,11 @@ const SEARCH_GAME = 'searchGame';
 const SEND_MESSAGE = 'sendMessage';
 const INIT_GAME = 'initGame';
 const CONNECT = 'connection';
-const HEALTH_CHECK = 'healthCheck';
+const DISCONNECT = 'disconnect';
 const OPONENT_DISCONNECTED = 'oponentDisconnected';
 
 io.on(CONNECT, (socket: any) => {
   const { id } = socket;
-
-  const heatlhCheck = () => {
-    socket.emit(HEALTH_CHECK);
-    if (gameRooms.hasDisconected(id)) {
-      socket.to(gameRooms.findOponent(id)).emit(OPONENT_DISCONNECTED);
-      socket.to(gameRooms.findOponent(id)).emit(SEND_MESSAGE, 'Tu oponente se ha desconectado');
-      gameRooms.deleteGameRoom(id);
-      socket.off(CONNECT, () => undefined);
-    } else setTimeout(heatlhCheck, 4000);
-  };
-
-  socket.on(HEALTH_CHECK, () => gameRooms.resetTtl(id));
 
   socket.emit(SEND_MESSAGE, 'Conectado al servidor');
   socket.on(SEARCH_GAME, (deck: number[]) => {
@@ -86,7 +74,6 @@ io.on(CONNECT, (socket: any) => {
           opener: !opener,
         },
       });
-      heatlhCheck();
     }
   });
 
@@ -94,7 +81,7 @@ io.on(CONNECT, (socket: any) => {
     socket.to(gameRooms.findOponent(id)).emit(GAME_ACTION, action);
   });
 
-  socket.on("disconnect", () => {
+  socket.on(DISCONNECT, () => {
     socket.to(gameRooms.findOponent(id)).emit(OPONENT_DISCONNECTED);
     socket.to(gameRooms.findOponent(id)).emit(SEND_MESSAGE, 'Tu oponente se ha desconectado');
     gameRooms.deleteGameRoom(id);
