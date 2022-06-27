@@ -16,7 +16,6 @@ const Lobby = () => {
   const onSearchClick = () => {
     if (selectedCards.length === 10) {
       const shuffled = shuffle(selectedCards);
-      console.log(shuffled);
       searchGame(shuffled);
       setLoading(true);
     }

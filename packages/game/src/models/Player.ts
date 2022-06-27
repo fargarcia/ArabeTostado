@@ -72,7 +72,7 @@ export class Player extends Entity {
     this.battlefield.enableAttack();
   };
   findById = (id: number): Entity | undefined => {
-    if (id <= 2) return this;
+    if (id <= 1) return this;
     return this._battlefield.findById(id) || this._hand.findById(id);
   };
   takeDamage = (damage: number) => (this._health -= damage);

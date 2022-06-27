@@ -6,7 +6,7 @@ import { PLAYER, OPONENT } from 'constants/players';
 
 const initPlayerStateAction = (player: any, { payload }: PayloadAction<InitPlayerState>) => {
   const newPlayer = new Player({
-    id: payload.opener ? 1 : 2,
+    id: payload.opener ? 0 : 1,
     cards: payload.deck,
     maxMoney: payload.opener ? 1 : 0,
   });
